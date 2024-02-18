@@ -1,6 +1,6 @@
 import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:ecommerce/Common/requiredLoginWidget.dart';
-import 'package:ecommerce/ui/home/lovedTap/addToCartWidget.dart';
+import 'package:ecommerce/ui/home/lovedTap/wishListCardWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -143,7 +143,7 @@ class _lovedTapState extends State<lovedTap> {
                   )
                 : ListView.builder(
                     itemBuilder: (context, index) {
-                      return addToCartWidget(state.products[index]);
+                      return wishListCardWidget(state.products[index]);
                     },
                     itemCount: state.products.length,
                   );

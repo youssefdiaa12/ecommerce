@@ -144,7 +144,7 @@ class Api_Manager {
       email: email,
       newPassword: password,
     );
-    var response = await http.post(uri,
+    var response = await http.put(uri,
         headers: {
           "Content-Type": "application/json",
           "Accept": "*/*",
@@ -180,6 +180,7 @@ class Api_Manager {
           "token": "$token",
         },
         body: jsonEncode(requestBody.toJson()));
+    print(response.body);
     var cartListResponse=AddToCartListResponse.fromJson(jsonDecode(response.body));
     return cartListResponse.status;
   }

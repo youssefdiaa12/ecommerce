@@ -61,21 +61,21 @@ class AppProvider extends ChangeNotifier {
     return products?.any((element) => element.id == productId) ?? false;
   }
   Future<String> addToFavorite(String productId) async{
+
     String? result=await CartListdUseCases.invoke_addToCart(productId, user?.token ?? "");
     if(result=="success"){
-      products?.add(Product(id: productId));
-      //await CartListdUseCases.invoke_getProductList(user?.token ?? "");
+      products=await CartListdUseCases.invoke_getProductList(user?.token ?? "");
     }
     return result??"";
   }
   Future<String> removeFromFavorite(String productId)async {
     String? result=await CartListdUseCases.invoke_removeFromCart(productId, user?.token ?? "");
     if(result=="success"){
-      products?.removeWhere((element) => element.id == productId);
+      products=await CartListdUseCases.invoke_getProductList(user?.token ?? "");
       print("lol");
       print(products?.length);
       notifyListeners();
-      //await CartListdUseCases.invoke_getProductList(user?.token ?? "");
+      //
     }
     return result??"";
   }

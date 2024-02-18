@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
 import '../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
+import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
 
 class homeProuctWidget extends StatefulWidget {
   Product product;
@@ -25,6 +26,7 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
   Widget build(BuildContext context) {
     AppProvider api_Provider = Provider.of<AppProvider>(context);
     var cubit = BlocProvider.of<HomeTapViewModelCubit>(context);
+
     return Container(
       width: 250.w,
       decoration: BoxDecoration(
@@ -130,6 +132,7 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
                         if(!is_logged){
                           return;
                         }
+
                           String result = await api_Provider
                               .addToFavorite(widget.product.id ?? "");
                           if (result != "success") {
