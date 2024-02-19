@@ -4,14 +4,14 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/model/Product.dart';
-import '../../domain/useCase/CartListUseCases.dart';
+import '../../domain/useCase/WishListUseCases.dart';
 import '../ProivderViewModel/app_provider.dart';
 
 part 'loved_tap_state.dart';
 
 @injectable
 class LovedTapCubit extends Cubit<LovedTapState> {
-  CartListdUseCase CartListdUseCases1;
+  WishListdUseCase CartListdUseCases1;
 
   @factoryMethod
   LovedTapCubit(this.CartListdUseCases1) : super(InitialLovedTapState());
@@ -34,7 +34,7 @@ class LovedTapCubit extends Cubit<LovedTapState> {
       print("logged in");
       emit(LoadingLovedTapState());
       try {
-        List<Product>? products = await CartListdUseCases1.invoke_getProductList(token);
+        List<Product>? products = await CartListdUseCases1.invoke_getProductWishList(token);
         emit(SuccessLovedTapState(
           products: products ?? [],
         ));

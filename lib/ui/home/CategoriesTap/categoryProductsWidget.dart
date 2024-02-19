@@ -10,7 +10,7 @@ import '../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
 import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
 import '../homeLoadingTap/homeProductWidget.dart';
 import '../homeSuccssesTap/homeProductWidget.dart';
-import 'categoryProuctWidgetDetails.dart';
+import 'categoryProuctListWidget.dart';
 
 class categorProductsWidget extends StatefulWidget {
 static const String routeName="categoriesProductsWidget";
@@ -90,7 +90,7 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                                         childAspectRatio: 0.65,
                                       ),
                                       itemBuilder: (context, index) {
-                                        return categoryProuctWidgetDetails(
+                                        return categoryProuctListWidget(
                                             state.products[index]);
                                       },
                                       itemCount: state.products.length,

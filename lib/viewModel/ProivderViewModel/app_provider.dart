@@ -3,13 +3,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:injectable/injectable.dart';
 import '../../data/model/User/User.dart';
 import '../../domain/model/Product.dart';
-import '../../domain/useCase/CartListUseCases.dart';
+import '../../domain/useCase/WishListUseCases.dart';
 @singleton
 class AppProvider extends ChangeNotifier {
   static User? user;
   List<Product>? products=[];
   SharedPreferences? preferences;
-  CartListdUseCase CartListdUseCases;
+  WishListdUseCase CartListdUseCases;
   @factoryMethod  AppProvider(this.CartListdUseCases);
   Future<void> register(String email, String name, String accssesToken, String phone) async {
     notifyListeners();
@@ -62,16 +62,16 @@ class AppProvider extends ChangeNotifier {
   }
   Future<String> addToFavorite(String productId) async{
 
-    String? result=await CartListdUseCases.invoke_addToCart(productId, user?.token ?? "");
+    String? result=await CartListdUseCases.invoke_wish(productId, user?.token ?? "");
     if(result=="success"){
-      products=await CartListdUseCases.invoke_getProductList(user?.token ?? "");
+      products=await CartListdUseCases.invoke_getProductWishList(user?.token ?? "");
     }
     return result??"";
   }
   Future<String> removeFromFavorite(String productId)async {
-    String? result=await CartListdUseCases.invoke_removeFromCart(productId, user?.token ?? "");
+    String? result=await CartListdUseCases.invoke_removeFromwish(productId, user?.token ?? "");
     if(result=="success"){
-      products=await CartListdUseCases.invoke_getProductList(user?.token ?? "");
+      products=await CartListdUseCases.invoke_getProductWishList(user?.token ?? "");
       print("lol");
       print(products?.length);
       notifyListeners();
@@ -80,7 +80,7 @@ class AppProvider extends ChangeNotifier {
     return result??"";
   }
   Future<void> getProductList(String token) async{
-    products=await CartListdUseCases.invoke_getProductList(token);
+    products=await CartListdUseCases.invoke_getProductWishList(token);
     print("loliiii");
     print(products?.length);
     notifyListeners();

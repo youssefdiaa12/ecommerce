@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'model/AddToCartListResponse/AddToCartListResponse.dart';
 import 'model/CartListResponse/CartListResponse.dart';
+import 'model/ProductCartListResponse/ProductCartListResponse.dart';
+import 'model/UpdateCartListResponse/UpdateCartListResponse.dart';
 import 'model/authenticationResponse/ForgetPasswordResponse.dart';
 import 'model/authenticationResponse/RegisterResponse.dart';
 import 'model/authenticationResponse/ResetPasswordCodeResponse.dart';
@@ -16,6 +18,7 @@ import 'model/requests/LoginRequest.dart';
 import 'model/requests/ProductIdRequest.dart';
 import 'model/requests/RegisterationRequest.dart';
 import 'model/requests/forgetPasswordRequest.dart';
+import 'model/requests/productCountRequest.dart';
 import 'model/requests/resetPasswordRequest.dart';
 import 'model/requests/verfiyResetPasswordRequest.dart';
 
@@ -166,7 +169,7 @@ class Api_Manager {
     return status;
   }
 
-  Future<String?> addProductToCartList(String productId, String token) async {
+  Future<String?> addProductToWishList(String productId, String token) async {
     var uri = Uri.https(BaseUrl, "/api/v1/wishlist");
     var requestBody =ProductIdRequest(
       productId: productId,
@@ -184,7 +187,7 @@ class Api_Manager {
     var cartListResponse=AddToCartListResponse.fromJson(jsonDecode(response.body));
     return cartListResponse.status;
   }
-  Future<String?> removeProductToCartList(String productId, String token) async {
+  Future<String?> removeProductToWishList(String productId, String token) async {
     var uri = Uri.https(BaseUrl, "/api/v1/wishlist/$productId");
     var response = await http.delete(uri,
         headers: {
@@ -219,6 +222,76 @@ class Api_Manager {
     print(cartListResponse.status);
     return cartListResponse.data;
   }
+Future<String?>addProductToCartList(String productId, String token) async {
+    print("${token}");
+  var uri = Uri.https(BaseUrl, "/api/v1/cart");
+  var requestBody =ProductIdRequest(
+    productId: productId,
+  );
 
+  var response = await http.post(uri,
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "token": "$token",
+    },
+    body: jsonEncode(requestBody.toJson()),
+  );
+  var cartListResponse=AddToCartListResponse.fromJson(jsonDecode(response.body));
+  print("added");
+  print(cartListResponse.status);
+  return cartListResponse.message;
+}
+  Future<String?>UpdateProductToCartList(String productId, String token,int count) async {
+    var uri = Uri.https(BaseUrl, "/api/v1/cart/$productId");
+var requestBody=ProductCountRequest(
+  count: count.toString(),
+);
+    var response = await http.put(uri,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "token": "$token",
+      },
+      body: jsonEncode(requestBody.toJson()),
+    );
+    var cartListResponse=UpdateCartListResponse.fromJson(jsonDecode(response.body));
+    print("updated");
+    print(cartListResponse.status);
+    return cartListResponse.status;
+  }
+  Future<ProductCartListResponse?>getCartListResponse(String token)async{
+    var uri = Uri.https(BaseUrl, "/api/v1/cart");
+    var response = await http.get(uri,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "token": "$token",
+      }
+    );
+    var cartListResponse=ProductCartListResponse.fromJson(jsonDecode(response.body));
+    return cartListResponse;
+  }
+  Future<String?>removeFromCartList(String productId, String token)async{
+    var uri = Uri.https(BaseUrl, "/api/v1/cart/$productId");
+    var response = await http.delete(uri,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Connection": "keep-alive",
+        "token": "$token",
+      }
+    );
+    var cartListResponse=AddToCartListResponse.fromJson(jsonDecode(response.body));
+    print("added");
+    print(cartListResponse.status);
+  }
 
 }

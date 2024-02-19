@@ -22,7 +22,6 @@ void main() async{
   configureDependencies();
   var provider1 = getIt<AppProvider>();
   await provider1.loggedin()?await provider1.getProductList(AppProvider.user?.token??""):null;
-  await provider1.logout();
 
   runApp(
       ChangeNotifierProvider(create: (context) => provider1, child: const MyApp()),
