@@ -48,6 +48,8 @@ class _productImageWidgetState extends State<productImageWidget> {
                           width: 398.w,
                           height: 305.h,
                           fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => const Center(
+                                child: Icon(Icons.error, color: Colors.grey)),
                           imageBuilder: (context, imageProvider) {
                             return Container(
                               height: 398.h,
@@ -83,7 +85,7 @@ class _productImageWidgetState extends State<productImageWidget> {
              InkWell(
               onTap: () async {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Color(0xff06004F),
                     content: Row(
                       children: [
                         Text("Loading ...",
@@ -115,7 +117,7 @@ class _productImageWidgetState extends State<productImageWidget> {
                   // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      backgroundColor: Theme.of(context).primaryColor,
+                      backgroundColor:Color(0xff06004F),
                       content: Row(
                         children: [
                           Text("Removed from favorites",
@@ -161,7 +163,7 @@ class _productImageWidgetState extends State<productImageWidget> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Color(0xff06004F),
                     content: Row(
                       children: [
                         Text("Added to favorites",

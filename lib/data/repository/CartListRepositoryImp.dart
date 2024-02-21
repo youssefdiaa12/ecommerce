@@ -1,7 +1,7 @@
 import 'package:ecommerce/data/dataSource/CartListDataSource.dart';
-import 'package:ecommerce/data/model/ProductCartListResponse/ProductCartListResponse.dart';
 import 'package:injectable/injectable.dart';
 import '../../domain/repository/cartListRepository1.dart';
+import '../model/productCartListResponse1/ProductCartListResponse1.dart';
 @Injectable(as: cartListRepository1)
 class CartlistRepositoryImp extends cartListRepository1 {
   CartListDataSource CartListDataSource1;
@@ -21,8 +21,10 @@ class CartlistRepositoryImp extends cartListRepository1 {
   }
 
   @override
-  Future<ProductCartListResponse?> getProductsCartList(String token) async{
+  Future<ProductCartListResponse1?> getProductsCartList(String token) async{
+    print("sd");
     var response = await CartListDataSource1.getProductsCartList(token);
+    print(response);
     return response;
   }
 

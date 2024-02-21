@@ -2,17 +2,21 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:ecommerce/di/di.dart';
 import 'package:ecommerce/ui/home/CategoriesTap/productDetailsCartBodyWidget.dart';
-import 'package:ecommerce/ui/home/CategoriesTap/productImageWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../domain/model/Product.dart';
 import '../../../viewModel/CartListViewModel/cart_list_view_model_cubit.dart';
+import 'package:badges/badges.dart' as badges;
+
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
+import '../CartList/CartListWidget.dart';
+import 'package:provider/provider.dart';
 
 class productDetailsCartWidget extends StatefulWidget {
+  static const String routeName = 'productDetailsCartWidget';
 final  Product product;
 bool is_read_more=false;
 int size_selectedIndex=0,color_selectedIndex=0;
@@ -32,6 +36,12 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    AppProvider provider1 = Provider.of<AppProvider>(context);
+    String productList=provider1.products_cartList?.length.toString()??"0";
+    if(productList.length>=3){
+      productList="99+";
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -43,6 +53,7 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
               },
               icon: Icon(
                 Icons.arrow_back,
+                size: 28.sp,
                 color: Color(0xff06004F),
               )),
           title: Text(
@@ -58,10 +69,38 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
             SizedBox(
               width: 10.w,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 1.0, left: 6),
-              child:
-                  Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h),
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context,CartListWidget.routeName,
+                arguments:"ssss");
+                // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                //   context,
+                //   screen:CartListWidget(),
+                //   withNavBar: false,
+                //   settings: RouteSettings(name:"sss"),
+                // );
+              },
+              child: Padding(
+                padding:  EdgeInsets.only(top: 18.0.sp,right: 8.0.sp),
+                child: badges.Badge(
+                    badgeAnimation: const badges.BadgeAnimation.rotation(
+                      animationDuration: Duration(seconds: 1),
+                      colorChangeAnimationDuration: Duration(seconds: 1),
+                      loopAnimation: false,
+                      curve: Curves.fastOutSlowIn,
+                      colorChangeAnimationCurve: Curves.easeInCubic,
+                    ),
+                    position: badges.BadgePosition.topEnd(top: -14, end: -14),
+                    badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xff004182)),
+                    showBadge: true,
+
+                    badgeContent: Text((productList) ,style: TextStyle(color: Colors.white,
+                        fontSize:14.sp
+                    ),
+
+                    ),
+                    child: Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h)),
+              ),
             ),
             SizedBox(
               width: 10.w,
@@ -70,7 +109,7 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
         ),
         body: BlocProvider(
           create: (context) => getIt<CartListViewModelCubit>(),
-          child: BlocListener<CartListViewModelCubit, CartListViewModelState>(
+          child: BlocConsumer<CartListViewModelCubit, CartListViewModelState>(
             listener: (context, state) {
               if (state is CartListViewModelSuccess) {
                 Navigator.pop(dialogUtilites.dialogContext!);
@@ -108,7 +147,29 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
               }
               return false;
             },
-            child: productDetailsCartBodyWidget(widget.product),
+            builder:(context, state) {
+              if(state is CartListViewModelSuccess){
+                return productDetailsCartBodyWidget(widget.product);
+              }
+                return productDetailsCartBodyWidget(widget.product);
+            },
+            buildWhen: (previous, current) {
+              if (current is CartListViewModelSuccess) {
+                print("555");
+                setState(() {
+
+                });
+                return true;
+              }
+              if(current is CartListViewModelInitial){
+                print("kllla");
+                setState(() {
+
+                });
+                return true;
+              }
+              return false;
+            }
         ),
         ),
       ),

@@ -64,7 +64,7 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
           },
           builder: (context, state) {
             if (state is CategoryProductsSuccessful) {
-              return Padding(
+              return state.products.length!=0?Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: CustomScrollView(
                   slivers: [
@@ -104,6 +104,10 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                             ))),
                   ],
                 ),
+              ):
+              Center(
+                child: Text("No Products Found",
+                style: Theme.of(context).textTheme.titleMedium,),
               );
             }
             if (state is CategoryProductsLoading) {

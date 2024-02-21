@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import '../../data/model/ProductCartListResponse/ProductCartListResponse.dart';
+import '../../data/model/productCartListResponse1/ProductCartListResponse1.dart';
 import '../repository/cartListRepository1.dart';
 @injectable
 class CartListdUseCase{
@@ -9,10 +9,15 @@ class CartListdUseCase{
   Future<String?> invoke_addToCart(String productId,String token,int count)async{
     print("dddd");
     var response=  await cartlistRepositoryImp.addProductToCartList(productId, token);
+    print("dddd1");
+    print(response);
     if(count>1&&response=="Product added successfully to your cart"){
       print("raaa");
       response= await cartlistRepositoryImp.UpdateProductToCartList(productId, token,count);
+      print("rororo");
+      print(response);
       if(response=="success"){
+        print("dededede");
         return "Product added successfully to your cart";
       }
     }
@@ -23,8 +28,10 @@ class CartListdUseCase{
     var response=  await cartlistRepositoryImp.removeProductToCartList(productId, token);
     return response;
   }
-  Future<ProductCartListResponse?> invoke_getProductCartList(String token)async{
+  Future<ProductCartListResponse1?> invoke_getProductCartList(String token)async{
    var response= await cartlistRepositoryImp.getProductsCartList(token);
+   print("a70");
+   print(response);
     return response;
   }
   Future<String?> invoke_UpdateProductToCartList(String productId, String token,int count)async{

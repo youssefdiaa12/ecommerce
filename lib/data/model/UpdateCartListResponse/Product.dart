@@ -20,7 +20,7 @@ class Product {
       this.category, 
       this.brand, 
       this.ratingsAverage, 
-      });
+     });
 
   Product.fromJson(dynamic json) {
     if (json['subcategory'] != null) {
@@ -42,14 +42,14 @@ class Product {
   String? imageCover;
   Category? category;
   Brand? brand;
-  double? ratingsAverage;
+  num? ratingsAverage;
 Product copyWith({  List<Subcategory>? subcategory,
   String? id,
   String? title,
   String? imageCover,
   Category? category,
   Brand? brand,
-  double? ratingsAverage,
+  num? ratingsAverage,
 }) => Product(  subcategory: subcategory ?? this.subcategory,
   id: id ?? this.id,
   title: title ?? this.title,
@@ -73,6 +73,7 @@ Product copyWith({  List<Subcategory>? subcategory,
       map['brand'] = brand?.toJson();
     }
     map['ratingsAverage'] = ratingsAverage;
+    map['id'] = id;
     return map;
   }
 

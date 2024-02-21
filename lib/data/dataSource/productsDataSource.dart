@@ -7,4 +7,6 @@ abstract class ProductsDataSource {
   Future<List<Product>> getProducts(
       int pageNo, int limit,
       {ProductSortBy? productSortBy, String? categoryid});
+
+Future<num?>getSpecificProduct(String productId);
 }

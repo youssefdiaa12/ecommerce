@@ -26,7 +26,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
     CarouselController buttonCarouselController = CarouselController();
 
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Column(children: [
         CarouselSlider.builder(
           itemCount: widget.product.images!.length,
@@ -66,14 +66,14 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
               padding: const EdgeInsets.all(8.0),
               child:   SizedBox(
                 width: 150.w,
-                child: Text(widget.product.title??"",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F))
+                child: Text(widget.product.title??"",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F))
                   ,maxLines:1,
                   overflow: TextOverflow.ellipsis,),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child:   Text("EGP ${widget.product.price.toString()}",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+              child:   Text("EGP ${widget.product.price.toString()}",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
             )
           ],
         ),
@@ -90,10 +90,10 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     width: 102.w,
                     decoration: BoxDecoration(
                       color: Colors.white60,
-                      border: Border.all(color: Color(0xffabc0d3), width: 1),
+                      border: Border.all(color: const Color(0xffabc0d3), width: 1),
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child:Center(child: Text("${widget.product.sold.toString()} Sold",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),)),
+                    child:Center(child: Text("${widget.product.sold.toString()} Sold",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),)),
                   ),
                   SizedBox(width: 10.w,),
                   Padding(
@@ -102,9 +102,9 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                       children: [
                         Icon(Icons.star,color: Colors.yellow,size: 22.sp,),
                         SizedBox(width: 3.w,),
-                        Text("${widget.product.ratingsAverage.toString()}",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+                        Text("${widget.product.ratingsAverage.toString()}",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
                         SizedBox(width: 3.w,),
-                        Text("(${widget.product.ratingsQuantity.toString()})",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+                        Text("(${widget.product.ratingsQuantity.toString()})",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
                         SizedBox(width: 10.w,),
                       ],
                     ),
@@ -119,8 +119,8 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                 decoration:
                 BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  border: Border.all(color: Color(0xffabc0d3), width: 1),
-                  color: Color(0xff004182),
+                  border: Border.all(color: const Color(0xffabc0d3), width: 1),
+                  color: const Color(0xff004182),
                 ),
                 child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,7 +139,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   timeInSecForIosWeb: 3,
-                                  backgroundColor: Color(0xff004182),
+                                  backgroundColor: const Color(0xff004182),
                                   textColor: Colors.white,
                                   fontSize: 16.0,
                                 );
@@ -168,7 +168,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.BOTTOM,
                                     timeInSecForIosWeb: 1,
-                                    backgroundColor: Color(0xff004182),
+                                    backgroundColor: const Color(0xff004182),
                                     textColor: Colors.white,
                                     fontSize: 16.0
                                 );
@@ -188,7 +188,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text("Description",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+              Text("Description",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
             ],
           ),
         ),
@@ -196,11 +196,11 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
           padding: const EdgeInsets.all(8.0),
           child:widget.is_read_more?  ListView(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
               Text("${widget.product.description}",
-                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: Color(0xff06004F)),
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w400, color: const Color(0xff06004F)),
               ),
               SizedBox(height: 10.h),
               InkWell(
@@ -209,16 +209,16 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     widget.is_read_more = false;
                   });
                 },
-                child: Text("Read Less", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, color: Color(0xff004182))),
+                child: Text("Read Less", style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500, color: const Color(0xff004182))),
               )
             ],
           ):
           ListView(
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             children: [
-              Text(widget.product.description??"",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w400,color: Color(0xff06004F)),
+              Text(widget.product.description??"",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w400,color: const Color(0xff06004F)),
                 maxLines:3,
                 overflow: TextOverflow.ellipsis,),
               InkWell(
@@ -227,7 +227,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     widget.is_read_more=true;
                   });
                 },
-                child: Text("Read More",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: Color(0xff004182)),),
+                child: Text("Read More",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w500,color: const Color(0xff004182)),),
               ),
             ],
           ),
@@ -237,12 +237,12 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
           child: Row(
             children: [
               Text("Size",
-                style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+                style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
             ],
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 8.0),
+          padding: const EdgeInsets.only(left: 8.0),
           alignment: Alignment.centerLeft,
           height: 40.h,
           child: GridView.builder(
@@ -254,7 +254,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
               ),
               shrinkWrap: true,
 
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (context, index) {
@@ -268,12 +268,12 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     height: 35.h,
                     width: 35.w,
                     decoration: BoxDecoration(
-                      color:widget.size_selectedIndex==index ? Color(0xff004182):Colors.white,
+                      color:widget.size_selectedIndex==index ? const Color(0xff004182):Colors.white,
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Center(
                       child: Text("${38+index}",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color:widget.size_selectedIndex==index?Colors.white
-                          :Color(0xff004182)),),
+                          :const Color(0xff004182)),),
                     ),
                   ),
                 );
@@ -285,12 +285,12 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
           child: Row(
             children: [
               Text("Color",
-                style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Color(0xff06004F)),),
+                style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
             ],
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: 8.0),
+          padding: const EdgeInsets.only(left: 8.0),
           alignment: Alignment.centerLeft,
           height: 40.h,
           child: GridView.builder(
@@ -302,7 +302,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
               ),
               shrinkWrap: true,
 
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 4,
               itemBuilder: (context, index) {
@@ -335,10 +335,10 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
               children: [
                 Column(
                     children: [
-                      Text("Total Price",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Color(
+                      Text("Total Price",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: const Color(
                           0xffb3b1c9)),),
                       SizedBox(height: 5.h,),
-                      Text("${widget.product.price!*numberOfProducts} EGP",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Color(
+                      Text("${widget.product.price!*numberOfProducts} EGP",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: const Color(
                           0xff004182)),),
                     ]
                 ),
@@ -348,6 +348,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                       widget.product.id??"",
                       AppProvider.user?.token??"",
                       numberOfProducts);
+
                 }, child:
                 Row(
                   children: [
@@ -360,7 +361,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     SizedBox(width: 45.w,)
                   ],
                 ),style: ElevatedButton.styleFrom(
-                    primary: Color(0xff004182),
+                    primary: const Color(0xff004182),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     )

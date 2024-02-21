@@ -24,8 +24,7 @@ registerationUseCase registerationUseCase1;
        emailController.text,
        passwordController.text,
        confirmPasswordController.text,
-       phoneNumber.text
-   );
+       phoneNumber.text);
    emit(ReigsterViewModelSuccess(User1 as User));
   }
   catch(e){

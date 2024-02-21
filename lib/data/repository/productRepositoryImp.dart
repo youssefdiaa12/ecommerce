@@ -1,5 +1,4 @@
 import 'package:ecommerce/data/dataSource/productsDataSource.dart';
-import 'package:ecommerce/domain/model/Category.dart';
 import 'package:ecommerce/domain/model/Product.dart';
 import 'package:injectable/injectable.dart';
 
@@ -19,5 +18,11 @@ class productRepositoryImp extends productRepository {
     print("repos");
     return obj;
 
+  }
+  Future<num?>getSpecificProduct(String productId) async {
+   num? price= await OnlineProductsDataSource.getSpecificProduct(productId);
+   print("repo1");
+   print(price);
+   return price;
   }
 }
