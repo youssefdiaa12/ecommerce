@@ -22,5 +22,9 @@ class productsDataSourceImp extends ProductsDataSource {
     print("hi");
     return response.data!.map((productDto) => productDto.toProduct()).toList();
   }
+  Future<num?>getSpecificProduct(String productId) async {
+    var response= await api_manager.getSpecificProduct(productId);
+    return response;
+  }
 
 }

@@ -7,16 +7,16 @@ import 'package:provider/provider.dart';
 import '../../../viewModel/LovedTapViewModel/loved_tap_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
 
-class addToCartWidget extends StatefulWidget {
+class wishListCardWidget extends StatefulWidget {
   Product product;
 
-  addToCartWidget(this.product);
+  wishListCardWidget(this.product);
 
   @override
-  State<addToCartWidget> createState() => _addToCartWidgetState();
+  State<wishListCardWidget> createState() => _wishListCardWidgetState();
 }
 
-class _addToCartWidgetState extends State<addToCartWidget> {
+class _wishListCardWidgetState extends State<wishListCardWidget> {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);

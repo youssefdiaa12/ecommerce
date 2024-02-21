@@ -22,7 +22,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
       }
       else{
         AppProvider appProvider = getIt<AppProvider>();
-        appProvider.saveUser(AppProvider.user?.name??"", result??"", email, AppProvider.user?.phone??"");
+        appProvider.saveUser(AppProvider.user?.name??"", result??"", email, AppProvider.user?.phone??"",AppProvider.user?.address??"",password);
         appProvider.loadUser();
         emit(ResetPasswordSuccess(result));
       }

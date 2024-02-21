@@ -28,7 +28,18 @@ class _resetPasswordWidgetState extends State<resetPasswordWidget> {
     print("email is ${widget.email}");
     AppProvider obj = Provider.of<AppProvider>(context);
     return BlocListener<ResetPasswordCubit, ResetPasswordState>(
-
+listenWhen: (previous, current) {
+  if(current is ResetPasswordSuccess){
+    return true;
+  }
+  if(current is ResetPasswordError){
+    return true;
+  }
+  if(current is ResetPasswordLoading){
+    return true;
+  }
+  return false;
+},
         listener: (context, state) {
           if (state is ResetPasswordSuccess) {
             obj.updateUserPassword(passwordlController.text,state.result??"");
@@ -43,7 +54,7 @@ class _resetPasswordWidgetState extends State<resetPasswordWidget> {
           }
           if (state is ResetPasswordError) {
             Navigator.of(context, rootNavigator: true).pop();
-            dialogUtilites.showmsg(context, "reset code not verified");
+            dialogUtilites.lottieError(context, "reset code not verified");
           }
           if (state is ResetPasswordLoading) {
             dialogUtilites.lottieLoading(context, "Loading...");

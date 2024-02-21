@@ -1,3 +1,4 @@
+import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:ecommerce/domain/model/Category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,9 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../di/di.dart';
+import '../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
 import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
 import '../homeLoadingTap/homeProductWidget.dart';
 import '../homeSuccssesTap/homeProductWidget.dart';
+import 'categoryProuctListWidget.dart';
 
 class categorProductsWidget extends StatefulWidget {
 static const String routeName="categoriesProductsWidget";
@@ -18,19 +21,19 @@ const categorProductsWidget({super.key});
 
 class _categorProductsWidgetState extends State<categorProductsWidget> {
 
-  CategoryProductsCubit cubit = getIt<CategoryProductsCubit>();
   @override
   void initState() {
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+
     var category = ModalRoute.of(context)!.settings.arguments as Category?;
-     cubit.getData(category: category);
     return Scaffold(
 
-      body: BlocConsumer<CategoryProductsCubit, CategoryProductsState>(
-          bloc: cubit,
+      body: BlocProvider(
+  create: (context) => getIt<CategoryProductsCubit>()..getData(category: category),
+  child: BlocConsumer<CategoryProductsCubit, CategoryProductsState>(
           buildWhen: (previous, current) {
             if (current is CategoryProductsSuccessful) {
               return true;
@@ -54,10 +57,14 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                     );
                   });
             }
+            if(state is unAuthorized1){
+              dialogUtilites.lottieLogin(context, "Please Login First");
+            }
+
           },
           builder: (context, state) {
             if (state is CategoryProductsSuccessful) {
-              return Padding(
+              return state.products.length!=0?Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: CustomScrollView(
                   slivers: [
@@ -83,7 +90,7 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                                         childAspectRatio: 0.65,
                                       ),
                                       itemBuilder: (context, index) {
-                                        return homeProuctWidget(
+                                        return categoryProuctListWidget(
                                             state.products[index]);
                                       },
                                       itemCount: state.products.length,
@@ -97,6 +104,10 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                             ))),
                   ],
                 ),
+              ):
+              Center(
+                child: Text("No Products Found",
+                style: Theme.of(context).textTheme.titleMedium,),
               );
             }
             if (state is CategoryProductsLoading) {
@@ -143,6 +154,7 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
             }
             return Container();
           }),
+),
 
     );
   }

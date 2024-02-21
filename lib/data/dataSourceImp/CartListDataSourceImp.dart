@@ -1,25 +1,25 @@
-import 'package:ecommerce/data/model/productResponse/ProductDto.dart';
+import 'package:ecommerce/data/api_Manager.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../domain/model/Product.dart';
-import '../api_Manager.dart';
 import '../dataSource/CartListDataSource.dart';
+import '../model/productCartListResponse1/ProductCartListResponse1.dart';
 @Injectable(as: CartListDataSource)
-class addProductToCartListDataSourceImp extends CartListDataSource {
-
+ class CartListDataSourceImp extends CartListDataSource {
   Api_Manager api_manager;
-  @factoryMethod addProductToCartListDataSourceImp(this.api_manager);
-  @override
-  Future<String?> addProductToCartList(String productId,String token) async {
-    var response= await api_manager.addProductToCartList(productId,token);
-    return response;
+  @factoryMethod CartListDataSourceImp(this.api_manager);
+  Future<String?> addProductToCartList(String productId,String token)async{
+    print("amora");
+    return await api_manager.addProductToCartList(productId, token);
   }
-  Future<String?> removeProductToCartList(String productId,String token) async {
-    var response= await api_manager.removeProductToCartList(productId,token);
-    return response;
+  Future<String?> removeProductToCartList(String productId,String token)async{
+    print("dataSource");
+    return await api_manager.removeFromCartList(productId, token);
   }
-  Future<List<Product>?> getProductList(String token) async {
-    List<ProductDto>? response= await api_manager.getProductList(token);
-    return response?.map((productDto) => productDto.toProduct()).toList();
+  Future<ProductCartListResponse1?> getProductsCartList(String token)async{
+    print("wewa3");
+    return await api_manager.getCartListResponse(token);
   }
+  Future<String?>UpdateProductToCartList(String productId, String token,int count) async {
+    return await api_manager.UpdateProductToCartList(productId, token, count);
   }
+
+}

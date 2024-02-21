@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         listener: (context, state) {
           if (state is LoginViewModelSuccess) {
-            obj.login(state.user.name??"",state.user.token??"",state.user.email??"");
+            obj.login(state.user.name??"",state.user.token??"",state.user.email??"",state.user.pass??"");
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {

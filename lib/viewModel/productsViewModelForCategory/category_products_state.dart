@@ -13,3 +13,4 @@ class CategoryProductsError extends CategoryProductsState {
   final String message;
   CategoryProductsError(this.message);
 }
+class unAuthorized1 extends CategoryProductsState {}

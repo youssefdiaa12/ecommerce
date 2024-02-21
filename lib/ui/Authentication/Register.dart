@@ -32,7 +32,7 @@ class _RegisterState extends State<Register> {
         (context,state){
           if(state is ReigsterViewModelSuccess){
             obj.register(cubit.emailController.text,cubit.userName.text
-                ,state.user.token??"",cubit.phoneNumber.text);
+                ,state.user.token??"",cubit.phoneNumber.text,cubit.passwordController.text);
             Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {

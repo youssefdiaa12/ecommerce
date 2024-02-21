@@ -59,7 +59,7 @@ class _homeAdvState extends State<homeAdv> {
           ),
 
         ),
-        SizedBox(height: 10,),
+        SizedBox(height: 10.h,),
         AnimatedSmoothIndicator(
           activeIndex: currentPage,
           count: 3,

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../../di/di.dart';
+import '../../../viewModel/ProivderViewModel/app_provider.dart';
+import '../CartList/CartListWidget.dart';
 import '../CategoriesTap/categoriesTap.dart';
 import '../lovedTap/lovedTap.dart';
 import '../myAccountTap/myAccount.dart';
 import 'homeTap.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:provider/provider.dart';
 
 class hometap extends StatefulWidget {
   static const routeName = 'hometap';
@@ -22,9 +27,14 @@ class _hometapState extends State<hometap> {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
   }
-
   @override
   Widget build(BuildContext context) {
+    AppProvider provider1 = Provider.of<AppProvider>(context);
+    String productList=provider1.products_cartList?.length.toString()??"0";
+
+    if(productList.length>=3){
+      productList="99+";
+    }
     TextEditingController searchController = TextEditingController();
 
     List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -72,7 +82,7 @@ class _hometapState extends State<hometap> {
     }
     return Scaffold(
         resizeToAvoidBottomInset: true, // Set this to false
-        appBar: AppBar(
+        appBar:_controller.index!=3? AppBar(
         toolbarHeight: 110.h,
         backgroundColor: Colors.white30,
         elevation: 0,
@@ -89,37 +99,64 @@ class _hometapState extends State<hometap> {
                       contentPadding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 12.h),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0xff004182),
                         )
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0xff004182),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0xff004182),
                         ),
                       ),
                       hintText: "What do you search for?",
-                      hintStyle: TextStyle(color: Color(0xff004182)),
-                      prefixIcon: Icon(Icons.search_sharp, size: 28.sp, color: Color(0xff004182)),
+                      hintStyle: const TextStyle(color: Color(0xff004182)),
+                      prefixIcon: Icon(Icons.search_sharp, size: 28.sp, color: const Color(0xff004182)),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 1.0,left: 6),
-                  child: Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h),
+                InkWell(
+                  onTap: () {
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen:CartListWidget(),
+                      withNavBar: false,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 1.0,left: 6),
+                    child:
+                    badges.Badge(
+                        badgeAnimation: const badges.BadgeAnimation.rotation(
+                          animationDuration: Duration(seconds: 1),
+                          colorChangeAnimationDuration: Duration(seconds: 1),
+                          loopAnimation: false,
+                          curve: Curves.fastOutSlowIn,
+                          colorChangeAnimationCurve: Curves.easeInCubic,
+                        ),
+                        position: badges.BadgePosition.topEnd(top: -14, end: -14),
+                        badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xff004182)),
+                        showBadge: true,
+
+                        badgeContent: Text((productList) ,style: TextStyle(color: Colors.white,
+                        fontSize:14.sp
+                        ),
+
+                        ),
+                        child: Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h)),
+                  ),
                 ),
               ],
             ),
           ],
         ),
-      ),
+      ):null,
 
       body:PersistentTabView(
         context,
@@ -135,7 +172,7 @@ class _hometapState extends State<hometap> {
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(12.0),),
         confineInSafeArea: true,
-        backgroundColor: Color(0xff183555),
+        backgroundColor: const Color(0xff183555),
         // Default is Colors.white.
         handleAndroidBackButtonPress: true,
         // Default is true.

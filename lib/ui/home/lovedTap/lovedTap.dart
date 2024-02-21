@@ -1,11 +1,9 @@
-import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:ecommerce/Common/requiredLoginWidget.dart';
-import 'package:ecommerce/ui/home/lovedTap/addToCartWidget.dart';
+import 'package:ecommerce/ui/home/lovedTap/wishListCardWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import '../../../di/di.dart';
 import '../../../viewModel/LovedTapViewModel/loved_tap_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
@@ -27,8 +25,7 @@ class _lovedTapState extends State<lovedTap> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<LovedTapCubit>()
-        ..getLovedProductList(AppProvider.user?.token ?? ""),
+      create: (context) => getIt<LovedTapCubit>()..getLovedProductList(AppProvider.user?.token ?? ""),
       child: BlocBuilder<LovedTapCubit, LovedTapState>(
         buildWhen: (previous, current) {
           if (current is ErrorLovedTapState) {
@@ -72,6 +69,8 @@ class _lovedTapState extends State<lovedTap> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Container(height: MediaQuery.of(context).size.height*0.2,),
+
                   Lottie.asset(
                     "assets/animations/error.json",
                     fit: BoxFit.cover,
@@ -143,7 +142,7 @@ class _lovedTapState extends State<lovedTap> {
                   )
                 : ListView.builder(
                     itemBuilder: (context, index) {
-                      return addToCartWidget(state.products[index]);
+                      return wishListCardWidget(state.products[index]);
                     },
                     itemCount: state.products.length,
                   );

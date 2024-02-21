@@ -22,6 +22,8 @@ class LoginViewModelCubit extends Cubit<LoginViewModelState> {
        emailController.text,
        passwordController.text,);
    print(User1);
+   User1?.email=emailController.text;
+   User1?.pass=passwordController.text;
    emit(LoginViewModelSuccess(User1));
   }
   catch(e) {

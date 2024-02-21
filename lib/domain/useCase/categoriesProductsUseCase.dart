@@ -14,4 +14,11 @@ class categoriesProductsUseCase{
 print(obj.length);
     return obj;
   }
+  Future<num?>getSpecificProduct(String productId) async {
+
+   num? price= await ProductRepository.getSpecificProduct(productId);
+   print("repo");
+   print(price);
+   return price;
+  }
 }
