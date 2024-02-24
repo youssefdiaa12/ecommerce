@@ -21,4 +21,5 @@ SpeceficProductResponse copyWith({  Data? data,
     return map;
   }
 
+
 }

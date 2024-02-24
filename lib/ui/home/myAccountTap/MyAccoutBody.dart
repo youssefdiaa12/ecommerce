@@ -71,7 +71,10 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                 return null;
                   },
                   false,
-                  AppProvider.user?.name,idx:0),
+                  AppProvider.user?.name,idx:0
+              , onChanged: (value) {
+                  cubit.nameController.text = value;
+                },),
               SizedBox(
                 height: 20.h,
               ),
@@ -92,7 +95,10 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                     return null;
                   },
                   false,
-                  AppProvider.user?.email,idx:1),
+                  AppProvider.user?.email,idx:1,
+                onChanged: (value) {
+                  cubit.emailController.text = value;
+                },),
               SizedBox(
                 height: 20.h,
               ),
@@ -105,7 +111,7 @@ class _MyAccountBodyState extends State<MyAccountBody> {
               customFormFieldForAccount(cubit.passwordController, "Password",
                   TextInputType.visiblePassword,(p0) {
                     if(p0!.isEmpty){
-                      return "Email can't be empty";
+                      return "Paasword can't be empty";
                     }
                     if(p0.length<6){
                       return "password must be at least 6 characters";
@@ -113,7 +119,10 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                     return null;
                   },
                   true,
-                  AppProvider.user?.pass,idx:2),
+                  AppProvider.user?.pass,idx:2,
+                onChanged: (value) {
+                  cubit.passwordController.text = value;
+                },),
               SizedBox(
                 height: 20.h,
               ),
@@ -136,7 +145,10 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                     return null;
                   },
                   false,
-                  AppProvider.user?.phone,idx:3),
+                  AppProvider.user?.phone,idx:3,
+                onChanged: (value) {
+                  cubit.phoneController.text = value;
+                },),
               SizedBox(
                 height: 20.h,
               ),
@@ -155,7 +167,10 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                     return null;
                   },
                   false,
-                  AppProvider.user?.address,idx:4),
+                  AppProvider.user?.address,idx:4,
+                onChanged: (value) {
+                  cubit.addressController.text = value;
+                },),
 
            Center(
              child: Visibility(

@@ -3,6 +3,7 @@ import 'package:ecommerce/ui/home/homeSuccssesTap/homeCategoryWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../di/di.dart';
 import '../../../domain/model/Product.dart';
@@ -14,6 +15,10 @@ import 'homeBrandWidget.dart';
 import 'homeProductWidget.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ecommerce/Common/dialogUtilities.dart';
+
+import 'home_all_brands/home_all_brands.dart';
+import 'home_all_categories/home_all_categories.dart';
+import 'home_all_products/home_all_products.dart';
 
 class homeTap extends StatefulWidget {
   const homeTap({Key? key}) : super(key: key);
@@ -78,10 +83,7 @@ class _homeTapState extends State<homeTap> {
                 child: CustomScrollView(
                   slivers: [
                     SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [homeAdv()],
-                      ),
+                      child: homeAdv(),
                     ),
 
                     //     PagedListView<int, Brand>(
@@ -110,7 +112,11 @@ class _homeTapState extends State<homeTap> {
                                         Theme.of(context).textTheme.displayMedium,
                                   ),
                                   TextButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        PersistentNavBarNavigator.pushNewScreen(context, screen: home_all_categories(state.categories),
+                                            withNavBar:true);
+
+                                      },
                                       child: Text(
                                         "View All",
                                         style: Theme.of(context)
@@ -143,7 +149,7 @@ class _homeTapState extends State<homeTap> {
                     ),
                     SliverToBoxAdapter(
                         child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.20,
+                            height: MediaQuery.of(context).size.height * 0.22,
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -161,7 +167,10 @@ class _homeTapState extends State<homeTap> {
                                             .displayMedium,
                                       ),
                                       TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            PersistentNavBarNavigator.pushNewScreen(context, screen: home_all_brands(state.brands),
+                                                withNavBar:true);
+                                          },
                                           child: Text(
                                             "View All",
                                             style: Theme.of(context)
@@ -190,7 +199,7 @@ class _homeTapState extends State<homeTap> {
                             ))),
                     SliverToBoxAdapter(
                         child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.40,
+                            height: MediaQuery.of(context).size.height * 0.45,
                             child: Column(
                               children: [
                                 Row(
@@ -207,7 +216,11 @@ class _homeTapState extends State<homeTap> {
                                       ),
                                     ),
                                     TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          PersistentNavBarNavigator.pushNewScreen(context, screen: home_all_products(state.products),
+                                              withNavBar:true);
+
+                                        },
                                         child: Text(
                                           "View All",
                                           style: Theme.of(context)
@@ -266,27 +279,31 @@ class _homeTapState extends State<homeTap> {
                 child: CustomScrollView(
                   slivers: [
                     SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey.shade300,
-                              highlightColor: Colors.grey.shade100,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                  )
+                      child: SizedBox.fromSize(
+                        size: Size.fromHeight(
+                             MediaQuery.of(context).size.height * 0.30,),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    )
+                                  ),
+                                  height: 180.h,
                                 ),
-                                height: 180.h,
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
 
@@ -301,7 +318,7 @@ class _homeTapState extends State<homeTap> {
                     SliverToBoxAdapter(
                       child: SizedBox.fromSize(
                         size: Size.fromHeight(
-                            MediaQuery.of(context).size.height * 0.35),
+            MediaQuery.of(context).size.height * 0.35),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -352,7 +369,7 @@ class _homeTapState extends State<homeTap> {
                     ),
                     SliverToBoxAdapter(
                         child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.20,
+                            height: MediaQuery.of(context).size.height * 0.25,
                             width: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -402,7 +419,7 @@ class _homeTapState extends State<homeTap> {
                             ))),
                     SliverToBoxAdapter(
                         child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.40,
+                            height: MediaQuery.of(context).size.height * 0.55,
                             child: Column(
                               children: [
                                 Row(
@@ -435,11 +452,11 @@ class _homeTapState extends State<homeTap> {
                                     child: GridView.builder(
                                       scrollDirection: Axis.horizontal,
                                       gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                           SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 1,
                                         mainAxisSpacing: 10,
                                         crossAxisSpacing: 10,
-                                        childAspectRatio: 1.2,
+                                             childAspectRatio: 0.75.sp,
                                       ),
                                       itemBuilder: (context, index) {
                                         return Shimmer.fromColors(

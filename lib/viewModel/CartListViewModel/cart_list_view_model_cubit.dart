@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
+import '../../data/Services/disk_storage.dart';
+import '../../data/model/User/UserCartList.dart';
+import '../../data/model/User/user_cart_list_dao.dart';
 import '../../data/model/productCartListResponse1/ProductCartListResponse1.dart';
 import '../../data/model/productCartListResponse1/Products.dart';
 import '../../di/di.dart';
@@ -31,9 +34,15 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
         num total=0;
         AppProvider appProvider = getIt<AppProvider>();
         for (var i = 0; i < appProvider.products_cartList!.length; i++) {
-          num? price=await categoriesProductsUseCase1.getSpecificProduct(appProvider.products_cartList![i].product!.id??"");
-          prices.add(price??0);
-          total+=price??0;
+          num price= appProvider.products_cartList![i].price??0;
+          num count=await disk_storge().get_cart_product(appProvider.products_cartList![i].product!.id??"");
+          appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id??""]=count.toInt();
+          print("the counter is");
+          print(count);
+          print("the price is");
+          print(price);
+          prices.add(price*count);
+          total+=(price*count);
         }
         emit(CartListViewModelSuccess( response.data?.products??[],prices,total));
       }
@@ -52,12 +61,30 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
         print("Product added successfully to your cart");
         print("app");
         AppProvider appProvider = getIt<AppProvider>();
-        appProvider.product_cartList_count![productId] = count;
+        print(productId);
+        List<num?>prices=[];
+        int val=appProvider.product_cartList_count![productId]??0;
+        val=val+count;
+        UserCartList obj=UserCartList(productId,val);
+       bool is_found=await CartListDao.is_found_task(obj,AppProvider.user_fire_base?.id??"");
+       if(is_found){
+         await CartListDao.editTask(obj,AppProvider.user_fire_base?.id??"");
+       }
+       else{
+         await CartListDao.createTask(obj,AppProvider.user_fire_base?.id??"");
+       }
+        appProvider.update_counter_product(productId,val);
         await appProvider.getCartList(AppProvider.user?.token??"");
-
+        num total=0;
+        for (var i = 0; i < appProvider.product_cartList_count!.length; i++) {
+          num? price=appProvider.products_cartList![i].price??0;
+          prices.add(price);
+          total+=price*appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id]!;
+        }
         emit(CartListViewModelSuccess(
           appProvider.products_cartList ?? [],
-          [],0
+          prices,
+          total
         ));
       }
       else {
@@ -67,7 +94,6 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
       emit(CartListViewModelFailure(e.toString()));
     }
   }
-
   Future<void> invoke_removeFromCart(String productId, String token) async {
     emit(CartListViewModelLoading());
     try {
@@ -80,11 +106,13 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
         appProvider.product_cartList_count!.remove(productId);
         appProvider.products_cartList!.removeWhere((element) => element.product!.id == productId);
         print("sz");
+        UserCartList taskia=UserCartList(productId,0);
+        CartListDao.deleteTask(taskia,AppProvider.user_fire_base?.id??"");
         print(appProvider.product_cartList_count!.length);
         for (var i = 0; i < appProvider.product_cartList_count!.length; i++) {
-          num? price=await categoriesProductsUseCase1.getSpecificProduct(appProvider.products_cartList![i].product!.id??"");
-          prices.add(price??0);
-          total+=price!*appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id]!;
+          num? price=appProvider.products_cartList![i].price??0;
+          prices.add(price);
+          total+=price*appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id]!;
         }
         await appProvider.getCartList(AppProvider.user?.token??"");
         emit(CartListViewModelSuccess(

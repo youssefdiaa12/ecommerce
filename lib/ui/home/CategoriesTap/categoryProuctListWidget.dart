@@ -53,7 +53,7 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                       return Container(
                         height: 128.h,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(25),
                                 topRight: Radius.circular(25)),
                             shape: BoxShape.rectangle,
@@ -92,14 +92,11 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                       String result = await api_Provider
                           .removeFromFavorite(widget.product.id ?? "");
                       if (result != "success") {
-                        // ignore: use_build_context_synchronously
                         dialogUtilites.lottieError(
                             context, "some thing went wrong");
                       } else {
-                        // widget.key!.;
-                        // ignore: use_build_context_synchronously
+
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: Theme.of(context).primaryColor,
@@ -131,6 +128,7 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                     },
                     child: Image.asset(
                       "assets/icons/loved.png",
+                      fit:BoxFit.contain,
                     ),
                   )
                       : InkWell(
@@ -178,56 +176,69 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                     },
                     child: Image.asset(
                       "assets/icons/unloved.png",
+                      fit:BoxFit.contain,
                     ),
                   ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Text(
                 widget.product.title ?? "",
+                style: TextStyle(
+                  color: Color(0xff06004F),
+                  fontSize:20.sp,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Row(children: [
-                const Text("EGP"),
+                 Text("EGP", style: TextStyle(color: Theme.of(context).primaryColor)),
                 Padding(
-                  padding: const EdgeInsets.only(left: 2.0),
-                  child: Text(widget.product.price.toString() ?? ""),
+                  padding:  EdgeInsets.only(left: 2.0.w),
+                  child: Text(widget.product.price.toString(),
+                  style:TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 22.sp,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w400,
+                  ),
+                  ),
                 ),
               ]),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
                     Text("Review(${widget.product.ratingsAverage ?? ""})",
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style:  TextStyle(
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
                           color: Color(0xff06004F),
                         )),
-                    const Icon(
+                     Icon(
                       Icons.star,
                       color: Colors.amber,
-                      size: 20,
+                      size: 20.sp,
                       weight: 100,
                     ),
                   ]),
-                  const Padding(
-                    padding: EdgeInsets.all(4.0),
+                   Padding(
+                    padding: EdgeInsets.all(4.0.sp),
                     child: Icon(
                       Icons.add_circle_sharp,
                       color: Color(0xff004182),
-                      size: 45,
-                      weight: 100,
+                      size: 42.sp,
                     ),
                   )
                 ],

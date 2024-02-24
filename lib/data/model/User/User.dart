@@ -3,8 +3,8 @@
 /// role : "user"
 /// token : ""
 
-class User {
-  User({
+class User_api {
+  User_api({
       this.name, 
       this.email, 
       this.role, 
@@ -14,7 +14,7 @@ class User {
     this.pass,
   });
 
-  User.fromJson(dynamic json) {
+  User_api.fromJson(dynamic json) {
     name = json['name'];
     email = json['email'];
     role = json['role'];
@@ -30,14 +30,14 @@ class User {
   String?phone;
   String? address;
   String? pass;
-User copyWith({  String? name,
+User_api copyWith({  String? name,
   String? email,
   String? role,
   String? token,
   String? phone,
   String? address,
   String? pass,
-}) => User(  name: name ?? this.name,
+}) => User_api(  name: name ?? this.name,
   email: email ?? this.email,
   role: role ?? this.role,
   token: token ?? this.token,

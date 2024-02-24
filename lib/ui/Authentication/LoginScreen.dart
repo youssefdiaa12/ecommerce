@@ -34,9 +34,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return BlocListener<LoginViewModelCubit, LoginViewModelState>(
 
-        listener: (context, state) {
+        listener: (context, state) async{
           if (state is LoginViewModelSuccess) {
-            obj.login(state.user.name??"",state.user.token??"",state.user.email??"",state.user.pass??"");
+           await obj.login(state.user.name??"",state.user.token??"",state.user.email??"",state.user.pass??"");
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {

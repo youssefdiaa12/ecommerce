@@ -1,9 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce/viewModel/ProivderViewModel/app_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
+import '../../data/model/User/UseDaoFireBase.dart';
 import '../../di/di.dart';
 import '../../domain/useCase/updateUserDataUseCase.dart';
 
@@ -32,6 +34,10 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
       : super(UpdateUserDataInitial());
 
   void intializeData() {
+    if(AppProvider.user?.email==null){
+      emit(unAuthorized());
+      return;
+    }
     nameController.text = AppProvider.user?.name ?? "";
     emailController.text = AppProvider.user?.email ?? "";
     phoneController.text = AppProvider.user?.phone ?? "";
@@ -84,16 +90,41 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
         is_changes[4];
   }
 
-  void update() {
-    emit(update1());
-    print("update");
-    print(is_change);
-  }
 
   Future<void> updateUserData(String name, String email, String phone,
       String token, String address) async {
     emit(UpdateUserDataLoading());
     String? response;
+    try{
+      print("sama");
+      print(FirebaseAuth.instance.currentUser);
+      print(AppProvider.user?.pass);
+      if(FirebaseAuth.instance.currentUser!=null&&!FirebaseAuth.instance.currentUser!.emailVerified){
+        await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+        emit(verfiyUser());
+        return;
+      }
+      // final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //     email:"youssefdiaa2222@icloud.com"??"",
+      //     password:  AppProvider.user?.pass ?? "");
+      // var message = "error";
+      // final user = userCredential.user;
+      // await user?.updateEmail(email).then((value) => message = "Success");
+      var message = "error";
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+          email: email, password:AppProvider.user?.pass ?? "");
+      final user = userCredential.user;
+
+      await user?.updateEmail(email).then((value) => message = "Success");
+      print(message);
+
+      //await FirebaseAuth.instance.currentUser?.updateEmail(email);
+      AppProvider.user_fire_base?.email=email;
+    }
+  on FirebaseAuthException catch(e){
+      print(e);
+    }
     try {
        response = await updateUserData1.invoke_update_user_data(
           name, email, phone, token);
@@ -102,6 +133,20 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
         print("z8rota");
         print(name);
         print(email);
+//         Future<String> updateemail(String email, String password) async {
+// //email:new email
+//           var message = "error";
+//           try {
+//             final userCredential = await FirebaseAuth.instance
+//                 .signInWithEmailAndPassword(
+//                 email: _auth.currentUser!.email.toString(), password: password);
+//             final user = userCredential.user;
+//             await user?.updateEmail(email).then((value) => message = "Success");
+//           } catch (e) {}
+//           return message;
+//         }
+        print("llllll");
+        UserDaoFireBase.updateuser(AppProvider.user_fire_base!);
        await appProvider.saveUser(
             name, token, email, phone, address, AppProvider.user?.pass ?? "");
        await appProvider.loadUser();
@@ -119,7 +164,11 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
       emit(UpdateUserDataError("some thing went wrong"));
     }
   }
-
+  void update() {
+    emit(update1());
+    print("update");
+    print(is_change);
+  }
   Future<String?> updateUserPass(String currentPass, String password,
       String token) async {
     print("oldToken");
@@ -140,6 +189,7 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
           is_changes[i] = false;
         }
         is_change = false;
+       await FirebaseAuth.instance.currentUser?.updatePassword(password);
         emit(UpdateUserDataSuccess());
       }
       else {

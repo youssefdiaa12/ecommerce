@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../di/di.dart';
-import '../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
 import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
 import '../homeLoadingTap/homeProductWidget.dart';
-import '../homeSuccssesTap/homeProductWidget.dart';
 import 'categoryProuctListWidget.dart';
 
 class categorProductsWidget extends StatefulWidget {
@@ -79,15 +76,15 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                                         horizontal: 12.0,
                                     ),
                                     child:
-
                                     GridView.builder(
                                       scrollDirection: Axis.vertical,
+                                      physics:BouncingScrollPhysics(),
                                       gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        mainAxisSpacing: 10,
-                                        crossAxisSpacing: 10,
-                                        childAspectRatio: 0.65,
+                                           SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 8,
+                                            childAspectRatio: 0.75.sp,
                                       ),
                                       itemBuilder: (context, index) {
                                         return categoryProuctListWidget(
@@ -97,9 +94,8 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  height: 215.h,
-                                )
+                                Container(height:220.h,)
+
                               ],
                             ))),
                   ],

@@ -17,9 +17,11 @@ class _requiredLoginWidgetState extends State<requiredLoginWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           Text("Please Login First"),
-          Lottie.asset('assets/animations/requiredLogin.json'),
+          Lottie.asset('assets/animations/requiredLogin.json',
+          height: MediaQuery.of(context).size.height*0.4,
+          fit: BoxFit.cover
+          ),
           ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),

@@ -39,7 +39,7 @@ RegisterResponse copyWith({  String? message,
     if(user==null){
       return null;
     }
-    return User(
+    return User_api(
       name: user?.name,
       email: user?.email,
       role: user?.role,

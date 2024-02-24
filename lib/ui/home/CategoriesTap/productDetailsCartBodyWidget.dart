@@ -4,6 +4,7 @@ import 'package:ecommerce/ui/home/CategoriesTap/productImageWidget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../../../data/Services/disk_storage.dart';
 import '../../../domain/model/Product.dart';
 import '../../../viewModel/CartListViewModel/cart_list_view_model_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
@@ -343,11 +344,20 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     ]
                 ),
                 ElevatedButton(onPressed:()async{
+                  print("no of products");
+                  print(numberOfProducts);
                   var cubit = BlocProvider.of<CartListViewModelCubit>(context);
+                bool is_autohrized=await cubit.checkAuthority();
+                if(!is_autohrized){
+                  return;
+                }
+                await  disk_storge().add_to_cart_quantity(widget.product.id!, numberOfProducts);
                   await cubit.invoke_addToCart(
                       widget.product.id??"",
                       AppProvider.user?.token??"",
                       numberOfProducts);
+                  setState(() {
+                  });
 
                 }, child:
                 Row(

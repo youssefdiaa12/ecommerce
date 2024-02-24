@@ -65,46 +65,48 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
           ),
           centerTitle: true,
           actions: [
-            Icon(Icons.search_sharp, size: 28.sp, color: Color(0xff004182)),
-            SizedBox(
-              width: 10.w,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.pushNamed(context,CartListWidget.routeName,
-                arguments:"ssss");
-                // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
-                //   context,
-                //   screen:CartListWidget(),
-                //   withNavBar: false,
-                //   settings: RouteSettings(name:"sss"),
-                // );
-              },
-              child: Padding(
-                padding:  EdgeInsets.only(top: 18.0.sp,right: 8.0.sp),
-                child: badges.Badge(
-                    badgeAnimation: const badges.BadgeAnimation.rotation(
-                      animationDuration: Duration(seconds: 1),
-                      colorChangeAnimationDuration: Duration(seconds: 1),
-                      loopAnimation: false,
-                      curve: Curves.fastOutSlowIn,
-                      colorChangeAnimationCurve: Curves.easeInCubic,
-                    ),
-                    position: badges.BadgePosition.topEnd(top: -14, end: -14),
-                    badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xff004182)),
-                    showBadge: true,
+            Row(
+              children: [
+                Icon(Icons.search_sharp, size: 28.sp, color: Color(0xff004182)),
+                SizedBox(
+                  width: 10.w,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context,CartListWidget.routeName,
+                        arguments:"ssss");
+                    // PersistentNavBarNavigator.pushNewScreenWithRouteSettings(
+                    //   context,
+                    //   screen:CartListWidget(),
+                    //   withNavBar: false,
+                    //   settings: RouteSettings(name:"sss"),
+                    // );
+                  },
+                  child: badges.Badge(
+                      badgeAnimation: const badges.BadgeAnimation.rotation(
+                        animationDuration: Duration(seconds: 1),
+                        colorChangeAnimationDuration: Duration(seconds: 1),
+                        loopAnimation: false,
+                        curve: Curves.fastOutSlowIn,
+                        colorChangeAnimationCurve: Curves.easeInCubic,
+                      ),
+                      position: badges.BadgePosition.topEnd(top: -14, end: -14),
+                      badgeStyle: const badges.BadgeStyle(badgeColor: Color(0xff004182)),
+                      showBadge: true,
 
-                    badgeContent: Text((productList) ,style: TextStyle(color: Colors.white,
-                        fontSize:14.sp
-                    ),
+                      badgeContent: Text((productList) ,style: TextStyle(color: Colors.white,
+                          fontSize:14.sp
+                      ),
 
-                    ),
-                    child: Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h)),
-              ),
+                      ),
+                      child: Image.asset("assets/icons/cart.png", width: 25.w, height: 25.h)),
+                ),
+                SizedBox(
+                  width: 20.w,
+                ),
+              ],
             ),
-            SizedBox(
-              width: 10.w,
-            ),
+
           ],
         ),
         body: BlocProvider(

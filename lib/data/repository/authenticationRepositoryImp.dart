@@ -12,11 +12,11 @@ authenticationDataSource AuthenticationDataSource;
   authenticationRepositoryImp(this.AuthenticationDataSource);
 
   @override
-  Future<User?> Register(String name, String email, String password, String rePassword,
+  Future<User_api?> Register(String name, String email, String password, String rePassword,
       String phoneNumber) async{
     return await AuthenticationDataSource.Register(name, email, password, rePassword, phoneNumber);
   }
-  Future<User?> Login(String email, String password) async{
+  Future<User_api?> Login(String email, String password) async{
     return await AuthenticationDataSource.Login(email, password);
 
   }

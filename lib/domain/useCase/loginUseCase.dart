@@ -12,7 +12,7 @@ class loginUseCase{
   authenticationRepository AuthenticationRepository;
   @factoryMethod loginUseCase(this.AuthenticationRepository);
 
-  Future<User?> invoke( String email, String password)async{
+  Future<User_api?> invoke( String email, String password)async{
     return await AuthenticationRepository.Login(email, password);
   }
 }

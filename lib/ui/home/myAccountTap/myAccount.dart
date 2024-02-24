@@ -7,9 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../Common/requiredLoginWidget.dart';
 import '../../../di/di.dart';
 import '../../../domain/useCase/updateUserDataUseCase.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
+import '../../Authentication/LoginScreen.dart';
 import 'MyAccoutBody.dart';
 
 class MyAccount extends StatefulWidget {
@@ -81,6 +83,10 @@ class _MyAccountState extends State<MyAccount> {
             if(state is UpdateUserDataLoading){
               dialogUtilites.lottieLoading(context, "Loading...");
             }
+            if(state is verfiyUser){
+              Navigator.pop(dialogUtilites.dialogContext!);
+              dialogUtilites.lottieVerify(context,"please verify your email");
+            }
           },
           listenWhen: (previous, current) {
             if(current is UpdateUserDataSuccess){
@@ -92,10 +98,29 @@ class _MyAccountState extends State<MyAccount> {
             if(current is UpdateUserDataLoading){
               return true;
             }
+            if(current is verfiyUser){
+              return true;
+            }
 
             return false;
           },
             builder: (context, state) {
+            if(state is unAuthorized){
+              return requiredLoginWidget(
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const LoginScreen();
+                      },
+                    ),
+                        (_) => false,
+                  );
+                },
+                text: "login",
+              );
+
+            }
               if(state is UpdateUserDataSuccess){
                 print("emalo");
                 print(AppProvider.user?.email);
@@ -108,6 +133,9 @@ class _MyAccountState extends State<MyAccount> {
                 return true;
               }
               if(current is UpdateUserDataInitial){
+                return true;
+              }
+              if(current is unAuthorized){
                 return true;
               }
               if(current is update1){
