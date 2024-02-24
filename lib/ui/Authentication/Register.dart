@@ -29,9 +29,9 @@ class _RegisterState extends State<Register> {
     AppProvider obj = Provider.of<AppProvider>(context);
     return BlocListener <ReigsterViewModelCubit, ReigsterViewModelState>(
         listener:
-        (context,state){
+        (context,state)async{
           if(state is ReigsterViewModelSuccess){
-            obj.register(cubit.emailController.text,cubit.userName.text
+         await   obj.register(cubit.emailController.text,cubit.userName.text
                 ,state.user.token??"",cubit.phoneNumber.text,cubit.passwordController.text);
             Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(

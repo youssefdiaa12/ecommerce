@@ -1,6 +1,10 @@
+import 'package:ecommerce/data/model/brandResponse/brandDto.dart';
+import 'package:ecommerce/data/model/categoriesResponse/categoryDto.dart';
+
+import '../../../domain/model/Category.dart';
+import '../../../domain/model/Product.dart';
 import 'Subcategory.dart';
-import 'Category.dart';
-import 'Brand.dart';
+
 
 /// sold : 755
 /// images : ["https://ecommerce.routemisr.com/Route-Academy-products/1680399913850-1.jpeg","https://ecommerce.routemisr.com/Route-Academy-products/1680399913851-4.jpeg","https://ecommerce.routemisr.com/Route-Academy-products/1680399913850-2.jpeg","https://ecommerce.routemisr.com/Route-Academy-products/1680399913851-3.jpeg","https://ecommerce.routemisr.com/Route-Academy-products/1680399913851-5.jpeg"]
@@ -60,8 +64,8 @@ class Data {
     quantity = json['quantity'];
     price = json['price'];
     imageCover = json['imageCover'];
-    category = json['category'] != null ? Category.fromJson(json['category']) : null;
-    brand = json['brand'] != null ? Brand.fromJson(json['brand']) : null;
+    category = json['category'] != null ? CategoryDto.fromJson(json['category']) : null;
+    brand = json['brand'] != null ? BrandDto.fromJson(json['brand']) : null;
     ratingsAverage = json['ratingsAverage'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -85,8 +89,8 @@ class Data {
   num? quantity;
   num? price;
   String? imageCover;
-  Category? category;
-  Brand? brand;
+  CategoryDto? category;
+  BrandDto? brand;
   num? ratingsAverage;
   String? createdAt;
   String? updatedAt;
@@ -103,8 +107,8 @@ Data copyWith({  num? sold,
   num? quantity,
   num? price,
   String? imageCover,
-  Category? category,
-  Brand? brand,
+  CategoryDto? category,
+  BrandDto? brand,
   num? ratingsAverage,
   String? createdAt,
   String? updatedAt,
@@ -160,5 +164,24 @@ Data copyWith({  num? sold,
     map['id'] = id;
     return map;
   }
+  Product toProduct(){
+    return Product(
+      sold: sold?.toInt()??0,
+      images: images,
+      subcategory: null,
+      ratingsQuantity: ratingsQuantity?.toInt()??0,
+      id: id,
+      title: title,
+      slug: slug,
+      description: description,
+      quantity: quantity?.toInt()??0,
+      price: price,
+      imageCover: imageCover,
+      category: category?.toCategory(),
+      brand: brand?.toBrand(),
+      ratingsAverage: ratingsAverage,
+    );
+  }
+
 
 }

@@ -25,8 +25,6 @@ class CartListWidget extends StatefulWidget {
 class _CartListWidgetState extends State<CartListWidget> {
   @override
   Widget build(BuildContext context) {
-    var args=ModalRoute.of(context)?.settings.arguments as String;
-    widget.perviousRoute=args;
     AppProvider provider1 = Provider.of<AppProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -180,6 +178,9 @@ class _CartListWidgetState extends State<CartListWidget> {
                   print("wooo");
                   print(state.products.length);
                   print(state.prices.length);
+                  for(int i=0;i<state.products.length;i++){
+                    print(state.products[i].product?.id);
+                  }
                     return state.products.isEmpty
                       ? Center(
                     child: Column(
@@ -201,14 +202,19 @@ class _CartListWidgetState extends State<CartListWidget> {
                       ],
                     ),
                   )
-                      : ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return index==state.products.length-1? Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      : Column(
                         children: [
-                          cartListCardWidget(state.products[index].product?.toProduct()??Product()
-                              ,state.prices[index]??0,provider1.product_cartList_count![state.products[index].product!.id]??0),
+                          Expanded(
+                            child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                            return
+                            cartListCardWidget(state.products[index].product?.toProduct()??Product(),
+                                state.prices[index]??0,provider1.product_cartList_count![state.products[index].product!.id]??0);
+                    },
+                    itemCount: state.products.length,
+                  ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
@@ -247,14 +253,10 @@ class _CartListWidgetState extends State<CartListWidget> {
                                 ]
                             ),
                           )
-                        ],
-                      ):cartListCardWidget(state.products[index].product?.toProduct()??Product(),
-                          state.prices[index]??0,provider1.product_cartList_count![state.products[index].product!.id]??0);
-                    },
-                    itemCount: state.products.length,
-                  );
-                }
 
+                        ],
+                      );
+                }
 
             return Container();
           },

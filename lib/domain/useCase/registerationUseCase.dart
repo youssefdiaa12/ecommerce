@@ -12,7 +12,7 @@ class registerationUseCase{
   authenticationRepository AuthenticationRepository;
   @factoryMethod registerationUseCase(this.AuthenticationRepository);
 
- Future<User?> invoke(String name, String email, String password, String rePassword,String phoneNumber)async{
+ Future<User_api?> invoke(String name, String email, String password, String rePassword,String phoneNumber)async{
    return await AuthenticationRepository.Register(name, email, password, rePassword, phoneNumber);
  }
 }

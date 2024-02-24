@@ -37,7 +37,7 @@ class _homeAdvState extends State<homeAdv> {
               advImageWidget(results[itemIndex]),
           options: CarouselOptions(
               autoPlay: true,
-              height: 180.h,
+              height: MediaQuery.of(context).size.height * 0.28,
               autoPlayInterval: const Duration(seconds: 5),
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,

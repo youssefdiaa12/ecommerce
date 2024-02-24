@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787851180749",
+    "project_id": "ecommercedada-c8550",
+    "storage_bucket": "ecommercedada-c8550.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787851180749:android:21b6c21fc4225fd9578784",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASt5fsf1PjGrxrLORGJwUem_2MhWiLZus"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

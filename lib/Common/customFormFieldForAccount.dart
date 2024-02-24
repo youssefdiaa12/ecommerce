@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../viewModel/updateUserDataViewModel/update_user_data_cubit.dart';
 typedef Validator = String? Function(String?);
+typedef ValueChangedCallback = void Function(String);
 class customFormFieldForAccount extends StatefulWidget {
   TextEditingController textController;
   String hintText;
@@ -12,8 +13,10 @@ class customFormFieldForAccount extends StatefulWidget {
   int lines;
   String?labelText;
   int idx;
+  final ValueChangedCallback onChanged;
 
-  customFormFieldForAccount(this.textController, this.hintText, this.a2,this.validtor,this.is_visable,this.labelText,{this.lines=1,this.idx=0});
+  customFormFieldForAccount(this.textController, this.hintText, this.a2,this.validtor,this.is_visable,this.labelText,{this.lines=1,this.idx=0,
+  required this.onChanged});
 
   @override
   State<customFormFieldForAccount> createState() => _CustomFormFieldState();
@@ -30,13 +33,12 @@ class _CustomFormFieldState extends State<customFormFieldForAccount> {
         padding: const EdgeInsets.all(10.0),
         child: TextFormField(
           readOnly: !cubit.is_changes[widget.idx],
-          obscureText: widget.is_visable==true?!is_visable_2:widget.is_visable,
+          obscureText: widget.is_visable == true ? !is_visable_2 : widget.is_visable,
           controller: widget.textController,
           validator: widget.validtor,
-          onChanged: (value){
-            setState(() {
-              widget.textController.text=value;
-            });
+          onChanged: (value) {
+            widget.onChanged(value);
+        //    widget.textController.text = value;
           },
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(

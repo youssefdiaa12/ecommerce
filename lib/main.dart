@@ -13,23 +13,37 @@ import 'package:ecommerce/ui/home/CategoriesTap/categoryProductsWidget.dart';
 import 'package:ecommerce/ui/home/CategoriesTap/productDetailsCartWidget.dart';
 import 'package:ecommerce/ui/home/homeSuccssesTap/homeScreen.dart';
 import 'package:ecommerce/viewModel/ProivderViewModel/app_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'data/Services/disk_storage.dart';
 import 'di/di.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await Hive.initFlutter();
   Bloc.observer = MyBlocObserver();
   configureDependencies();
   var provider1 = getIt<AppProvider>();
   await provider1.loggedin()?await provider1.getProductList(AppProvider.user?.token??""):null;
-  if(AppProvider.user?.email!=null){
-    await provider1.getCartList(AppProvider.user?.token??"");
-  }
+  await provider1.loggedin()?await provider1.getCartList(AppProvider.user?.token??""):null;
+
   runApp(
-      ChangeNotifierProvider(create: (context) => provider1, child: const MyApp()),
+      MultiProvider(
+      providers: [
+          ChangeNotifierProvider(create: (context) => provider1),
+        ChangeNotifierProvider(create: (context) => disk_storge()),
+      ],
+        child: const MyApp(),
+      ),
   );
 
   }

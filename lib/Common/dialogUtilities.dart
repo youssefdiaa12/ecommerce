@@ -216,10 +216,51 @@ class dialogUtilites {
                   },
                   child: Text(
                     "Ok",
-                    style: TextStyle(color: Theme.of(context).primaryColor),
+                    style: TextStyle(color: Color(0xff004182)),
                   ))
             ],
           );
         });
   }
+
+  static void lottieVerify(BuildContext context, String msg) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          dialogContext = context;
+          return AlertDialog(
+            insetPadding:
+            EdgeInsets.symmetric(horizontal: 20.w, vertical: 250.h),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 50.h,),
+                  Center(
+                    child: Lottie.asset(
+                      "assets/animations/codeSent.json",
+                      height: 180.h,
+                      width: 180.w,
+                      fit: BoxFit.cover,
+                    ),
+
+                  ),
+                  SizedBox(height: 50.h,),
+                  Text(
+                    msg,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                ],
+              ), //@
+            ),
+          );
+        });
+  }
+
 }

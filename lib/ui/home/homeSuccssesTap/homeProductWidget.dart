@@ -91,15 +91,11 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
                             String result = await api_Provider
                                 .removeFromFavorite(widget.product.id ?? "");
                             if (result != "success") {
-                              // ignore: use_build_context_synchronously
                               dialogUtilites.lottieError(
                                   context, "some thing went wrong");
                             } else {
-                              // widget.key!.;
-                              // ignore: use_build_context_synchronously
-                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: Theme.of(context).primaryColor,
@@ -131,6 +127,9 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
                           },
                           child: Image.asset(
                             "assets/icons/loved.png",
+                            fit: BoxFit.contain,
+                            width: 50.w,
+                            height: 50.h,
                           ),
                         )
                       : InkWell(
@@ -179,13 +178,16 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
                           },
                           child: Image.asset(
                             "assets/icons/unloved.png",
+                            fit: BoxFit.contain,
+                            height: 50.h,
+                            width: 50.w,
                           ),
                         ),
                 ),
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Text(
                 widget.product.title ?? "",
                 maxLines: 2,
@@ -193,41 +195,41 @@ class _homeProuctWidgetState extends State<homeProuctWidget> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Row(children: [
                 const Text("EGP"),
                 Padding(
-                  padding: const EdgeInsets.only(left: 2.0),
+                  padding:  EdgeInsets.only(left: 2.0.w),
                   child: Text(widget.product.price.toString() ?? ""),
                 ),
               ]),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(children: [
                     Text("Review(${widget.product.ratingsAverage ?? ""})",
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style:  TextStyle(
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
                           color: Color(0xff06004F),
                         )),
-                    const Icon(
+                     Icon(
                       Icons.star,
                       color: Colors.amber,
-                      size: 20,
-                      weight: 100,
+                      size: 20.sp,
+                      weight: 100.w,
                     ),
                   ]),
-                  const Padding(
-                    padding: EdgeInsets.all(4.0),
+                   Padding(
+                    padding: EdgeInsets.all(4.0.sp),
                     child: Icon(
                       Icons.add_circle_sharp,
                       color: Color(0xff004182),
-                      size: 45,
+                      size: 40.sp,
                       weight: 100,
                     ),
                   )

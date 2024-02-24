@@ -6,7 +6,7 @@ abstract class LoginViewModelState {}
 class LoginViewModelInitial extends LoginViewModelState {}
 class LoginViewModelLoading extends LoginViewModelState {}
 class LoginViewModelSuccess extends LoginViewModelState {
-  User user;
+  User_api user;
   LoginViewModelSuccess(this.user);
 }
 class LoginViewModelError extends LoginViewModelState {

@@ -13,4 +13,6 @@ class UpdateUserDataError extends UpdateUserDataState {
   String? error;
   UpdateUserDataError(this.error);
 }
+class unAuthorized extends UpdateUserDataState {}
 class update1 extends UpdateUserDataState {}
+class verfiyUser extends UpdateUserDataState {}

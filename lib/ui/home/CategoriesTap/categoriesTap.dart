@@ -97,6 +97,8 @@ int _selectedIndex = 0;
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 0.8,
                   ),
                   itemBuilder: (BuildContext context, int index) {
                     return Padding(
@@ -170,9 +172,11 @@ int _selectedIndex = 0;
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
+                    width: 165.w,
                     height: double.infinity,
-                    width: 185.w,
                     child:VerticalTabs(
+                      contentScrollAxis: Axis.vertical,
+                      changePageCurve: Curves.easeInOut,
                       initialIndex:_selectedIndex,
                       tabBackgroundColor: Colors.grey.shade300,
                       indicatorColor: Theme.of(context).primaryColor,
@@ -181,9 +185,18 @@ int _selectedIndex = 0;
                       selectedTabBackgroundColor:Colors.transparent,
                       indicatorWidth: 8,
                       tabsElevation: 0,
-                      tabsWidth: 150,
-                      tabs:  const <Tab>[
-                        Tab(child: Text("Men's fashion"),),
+                      tabsWidth: 165.w,
+                      onSelect: (index) {
+                        if(index!=_selectedIndex){
+                          setState(() {
+                            _selectedIndex = index;
+                            cubit.getData();
+                          });
+                        }
+                      },
+                      backgroundColor: Colors.white,
+                      tabs: const <Tab>[
+                        Tab(child: Text("Men's fashion")),
                         Tab(child: Text("Women's fashion")),
                         Tab(child: Text("kid's fashion")),
                         Tab(child: Text('Accessories')),
@@ -200,6 +213,7 @@ int _selectedIndex = 0;
                         _buildListTile("Beauty", 5),
                         _buildListTile("Fashion", 6),
                       ],
+
                     ),
 
                     // ListView(

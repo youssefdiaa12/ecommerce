@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ecommerce/data/model/brandResponse/BrandResponse.dart';
 import 'package:ecommerce/data/model/categoriesResponse/CategoryResponse.dart';
+import 'package:ecommerce/domain/model/Product.dart';
 import 'package:ecommerce/domain/repository/productRepository.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
@@ -81,6 +82,15 @@ class Api_Manager {
     print(ProductsList.data!.price);
 
     return ProductsList.data!.price;
+  }
+  Future<Product> getSpecificProduct_data(String productId) async {
+
+    var uri = Uri.https(BaseUrl, "/api/v1/products/$productId");
+    var response = await http.get(uri);
+
+    var ProductsList = SpeceficProductResponse.fromJson(jsonDecode(response.body));
+    return ProductsList.data?.toProduct()??Product();
+
   }
 
   Future<RegisterResponse> register(String name, String email, String password,

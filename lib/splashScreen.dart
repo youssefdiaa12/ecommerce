@@ -7,6 +7,7 @@ import 'di/di.dart';
 
 class SplashPage extends StatefulWidget {
   static const routeName = 'splashScreen';
+
   const SplashPage({super.key});
 
   @override
@@ -18,42 +19,51 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     Future.delayed(
       const Duration(seconds: 2),
-          () {
+      () {
         Navigator.pushReplacementNamed(context, hometap.routeName);
       },
     );
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     var size = getIt<ResponsiveUiConfig>()..initialize(context);
 
-
-
     return Scaffold(
-      body: Container(
-        width: size.screenWidth,
-        height: size.screenHeight,
-        color:Color(0xFF014282),
-
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              "assets/images/Ellipse 6.png",
-            ),
-            FadeInLeft(
-              duration: const Duration(seconds: 1),
-              delay: const Duration(seconds: 1),
-              child: Image.asset(
-                "assets/images/loginRoute.png",
+      backgroundColor: const Color(0xFF014282),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/images/Ellipse 6.png",
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.3,
+          ),
+          Center(
+            child: Align(
+              alignment: Alignment.center,
+              child: FadeInLeft(
+                duration: const Duration(seconds: 1),
+                delay: const Duration(seconds: 1),
+                child: Image.asset(
+                  "assets/images/loginRoute.png",
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
               ),
             ),
-            Image.asset(
-              "assets/images/Ellipse7.png",
-            )
-          ],
-        ),
+          ),
+          Image.asset(
+            scale: 0.8,
+            "assets/images/Ellipse7.png",
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.3,
+          ),
+        ],
       ),
     );
   }
