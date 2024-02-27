@@ -25,14 +25,10 @@ authenticationDataSource AuthenticationDataSource;
   }
   Future<String?>ResetPasswordCode(String code) async{
     String ?result= await AuthenticationDataSource.ResetPasswordCode(code);
-    print(result);
-    print("repo");
     return result;
   }
   Future<String?>ResetPassword(String email,String password) async{
     String ?result= await AuthenticationDataSource.ResetPassword(email, password);
-    print("repo imp");
-    print(result);
     return result;
   }
 }

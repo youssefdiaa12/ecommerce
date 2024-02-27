@@ -151,20 +151,18 @@ class _productDetailsCartWidgetState extends State<productDetailsCartWidget> {
             },
             builder:(context, state) {
               if(state is CartListViewModelSuccess){
-                return productDetailsCartBodyWidget(widget.product);
+                return ProductDetailsCartBodyWidget(widget.product);
               }
-                return productDetailsCartBodyWidget(widget.product);
+                return ProductDetailsCartBodyWidget(widget.product);
             },
             buildWhen: (previous, current) {
               if (current is CartListViewModelSuccess) {
-                print("555");
                 setState(() {
 
                 });
                 return true;
               }
               if(current is CartListViewModelInitial){
-                print("kllla");
                 setState(() {
 
                 });

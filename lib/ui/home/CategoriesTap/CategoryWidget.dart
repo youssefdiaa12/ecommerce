@@ -7,8 +7,8 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../domain/model/Category.dart';
 
 class CategoryWidget extends StatefulWidget {
-  Category category;
-  CategoryWidget(this.category);
+ final Category category;
+  CategoryWidget(this.category, {super.key});
 
   @override
   State<CategoryWidget> createState() => _CategoryWidgetState();
@@ -20,8 +20,8 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     return InkWell(
       onTap: (){
         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(context,
-          screen: categorProductsWidget(),
-          withNavBar: true, settings:RouteSettings(name: categorProductsWidget.routeName,
+          screen: const CategorProductsWidget(),
+          withNavBar: true, settings:RouteSettings(name: CategorProductsWidget.routeName,
               arguments:widget.category ));},
       child: Column(
         children: [
@@ -46,7 +46,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                 ),
               )
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
 
           )
         ),

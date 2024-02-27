@@ -5,7 +5,6 @@ import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
 import '../../Common/customFormField.dart';
 import '../../Common/validation.dart';
 import '../../di/di.dart';
@@ -82,11 +81,11 @@ class _forgetPasswordWidgetState extends State<forgetPasswordWidget> {
                           child: Container(
                             height: 45.h,
                             decoration: BoxDecoration(
-                              color: Color(0xFF3482F7),
+                              color: const Color(0xFF3482F7),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12.0),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -115,7 +114,7 @@ class _forgetPasswordWidgetState extends State<forgetPasswordWidget> {
         },
         bloc: cubit,
         child: Scaffold(
-            backgroundColor: Color(0xFF014282),
+            backgroundColor: const Color(0xFF014282),
             body: SingleChildScrollView(
               child: Form(
                 key: keyform,

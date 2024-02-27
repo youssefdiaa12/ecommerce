@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce/domain/model/Category.dart';
 import 'package:ecommerce/domain/useCase/MostSellingProductsUseCase.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
-
+import '../../data/model/User/UseDaoFireBase.dart';
 import '../../di/di.dart';
 import '../../domain/model/Brand.dart';
 import '../../domain/model/Product.dart';
@@ -25,24 +25,35 @@ List<Product> products=[];
   Future<void> getData(int pageNo,int Limit)async {
     emit(HomeTapViewModelLoading());
     try {
-      print("HomeTapViewModelLoading");
+      var  firebaseauth = FirebaseAuth.instance.currentUser;
+      if (firebaseauth != null) {
+        AppProvider.user_fire_base = await UserDaoFireBase.getuser(firebaseauth.uid);
+      }
       categories = await categoriesUseCase1.invoke();
-      print("categories");
        brands = await brandsUseCase1.invoke();
-       print("brands");
        products = await productsUseCase1.invoke(pageNo, Limit);
-       print("products");
-      emit(HomeTapViewModelSuccessful(categories, brands, products));
+      var provider1 = getIt<AppProvider>();
+      bool isLogged=FirebaseAuth.instance.currentUser!=null;
+      if(isLogged){
+       await provider1.getProductList(AppProvider.user?.token??"");
+        await provider1.getCartList(AppProvider.user?.token??"");
+       emit(HomeTapViewModelSuccessful(categories, brands, products));
+      }
+      else{
+    provider1.products_cartList=[];
+    provider1.product_cartList_count={};
+    provider1.products_wishList=[];
+    emit(HomeTapViewModelSuccessful(categories, brands, products));
+      }
     }
     catch(e){
-      print(e);
       emit(HomeTapViewModelError(e.toString()));
     }
   }
   Future<bool> checkAuthority()async{
     var provider1 = getIt<AppProvider>();
-    bool is_logged =await provider1.loggedin();
-    if(!is_logged){
+    bool isLogged =await provider1.loggedin();
+    if(!isLogged){
       emit(unAuthorized());
       return false;
     }

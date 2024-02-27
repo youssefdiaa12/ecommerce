@@ -6,18 +6,18 @@ import '../../Common/customFormField.dart';
 import '../../di/di.dart';
 import '../../viewModel/ProivderViewModel/app_provider.dart';
 import '../../viewModel/resetPasswordViewModel/reset_password_cubit.dart';
-import '../home/homeSuccssesTap/homeScreen.dart';
+import '../home/homeSuccssesTap/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class resetPasswordWidget extends StatefulWidget {
+class ResetPasswordWidget extends StatefulWidget {
   static const routeName = 'resetPasswordWidget';
-  String email;
-  resetPasswordWidget({Key? key, required this.email}) : super(key: key);
+ final  String email;
+  const ResetPasswordWidget({Key? key, required this.email}) : super(key: key);
   @override
-  State<resetPasswordWidget> createState() => _resetPasswordWidgetState();
+  State<ResetPasswordWidget> createState() => _ResetPasswordWidgetState();
 }
 
-class _resetPasswordWidgetState extends State<resetPasswordWidget> {
+class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
   var keyform = GlobalKey<FormState>();
   TextEditingController passwordlController = TextEditingController();
 
@@ -46,7 +46,7 @@ listenWhen: (previous, current) {
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const hometap();
+                  return const HomeScreen();
                 },
               ),
                   (_) => false,

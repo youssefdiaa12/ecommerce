@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-
-import '../../data/model/User/User.dart';
 import '../../domain/useCase/forgetPasswordUseCase.dart';
 
 part 'forget_password_view_model_state.dart';

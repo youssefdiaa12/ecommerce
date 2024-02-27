@@ -1,10 +1,6 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:ecommerce/resources/responsive_ui_helper.dart';
-import 'package:ecommerce/ui/home/homeSuccssesTap/homeScreen.dart';
+import 'package:ecommerce/ui/home/homeSuccssesTap/home_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'di/di.dart';
-
 class SplashPage extends StatefulWidget {
   static const routeName = 'splashScreen';
 
@@ -20,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
     Future.delayed(
       const Duration(seconds: 2),
       () {
-        Navigator.pushReplacementNamed(context, hometap.routeName);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       },
     );
     super.initState();
@@ -28,8 +24,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = getIt<ResponsiveUiConfig>()..initialize(context);
-
     return Scaffold(
       backgroundColor: const Color(0xFF014282),
       body: Column(

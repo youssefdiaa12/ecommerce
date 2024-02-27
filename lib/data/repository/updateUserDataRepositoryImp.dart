@@ -1,4 +1,3 @@
-import 'package:ecommerce/data/api_Manager.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/repository/updateUserDataRepository.dart';

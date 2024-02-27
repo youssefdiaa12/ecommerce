@@ -1,11 +1,4 @@
-import 'package:ecommerce/domain/repository/authenticationRepository.dart';
-import 'package:ecommerce/viewModel/ProivderViewModel/app_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../data/model/User/User.dart';
-import '../../di/di.dart';
-import '../../viewModel/ProivderViewModel/app_provider.dart';
 import '../repository/updateUserDataRepository.dart';
 @injectable
 class updateUserDataUseCase{

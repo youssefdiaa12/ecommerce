@@ -24,6 +24,22 @@ class customFormFieldForAccount extends StatefulWidget {
 
 class _CustomFormFieldState extends State<customFormFieldForAccount> {
   bool is_visable_2=false;
+  int idx=0;
+
+  void changedd(){
+    widget.textController.addListener(() {
+      // Store the current cursor position
+      setState(() {
+        idx = widget.textController.selection.base.offset;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    changedd();
+  }
   @override
   Widget build(context) {
     var cubit = BlocProvider.of<UpdateUserDataCubit>(context);
@@ -36,10 +52,12 @@ class _CustomFormFieldState extends State<customFormFieldForAccount> {
           obscureText: widget.is_visable == true ? !is_visable_2 : widget.is_visable,
           controller: widget.textController,
           validator: widget.validtor,
-          onChanged: (value) {
-            widget.onChanged(value);
-        //    widget.textController.text = value;
-          },
+          // onChanged: (value) {widget.onChanged(value);
+          //   int newPosition = idx + (value.length - widget.textController.text.length);
+          //   // Set cursor position to the new position
+          //   widget.textController.selection = TextSelection.collapsed(offset: newPosition);
+          //   //    widget.textController.text = value;
+          // },
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Color(0xff8e8bae),width:1), // Set your desired border color here

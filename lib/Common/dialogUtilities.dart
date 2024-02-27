@@ -1,8 +1,12 @@
+import 'package:ecommerce/ui/home/homeSuccssesTap/home_tap.dart';
+import 'package:ecommerce/viewModel/ProivderViewModel/app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../ui/Authentication/LoginScreen.dart';
+import '../ui/home/homeSuccssesTap/home_screen.dart';
 
 class dialogUtilites {
   static BuildContext? dialogContext;
@@ -59,6 +63,7 @@ class dialogUtilites {
       context: context,
       builder: (BuildContext buildcontext) {
         return AlertDialog(
+          shape:OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
           content: SingleChildScrollView(
               child: Text(
             msg,
@@ -71,7 +76,9 @@ class dialogUtilites {
                 style: const TextStyle(color: Colors.black),
               ),
               onPressed: () {
-                postAction?.call();
+                Navigator.pop(context);
+             //   postAction?.call();
+
               },
             ),
             if (txt != null)
@@ -262,5 +269,78 @@ class dialogUtilites {
           );
         });
   }
+
+  static void lottieLogOut(BuildContext context,AppProvider obj) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            //decrease height of the dialog
+            insetPadding:
+            EdgeInsets.symmetric(horizontal: 30.w, vertical: 250.h),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    'assets/animations/logout.json',
+                    fit: BoxFit.cover,
+                    height: 180.h,
+                    width: 180.w,
+                  ),
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  Text("Are you sure you want to logout?",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontFamily: "Poppins",
+                      )),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async{
+                   await obj.logout();
+                   Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                     MaterialPageRoute(
+                       builder: (BuildContext context) {
+                         return const HomeScreen();
+                       },
+                     ),
+                         (_) => false,
+                   );
+
+                   // Navigator.of(context, rootNavigator: true)
+                   //      .pushAndRemoveUntil(
+                   //    MaterialPageRoute(
+                   //      builder: (BuildContext context) {
+                   //        return const homeTap();
+                   //      },
+                   //    ),
+                   //        (_) => false,
+                   //  );
+                  },
+                  child: Text(
+                    "Yes",
+                    style: TextStyle(color: Color(0xff004182)),
+                  )),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "No",
+                  style: TextStyle(color: Color(0xff004182)),
+                )
+              )
+            ],
+          );
+        });
+  }
+
 
 }

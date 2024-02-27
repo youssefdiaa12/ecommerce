@@ -1,7 +1,5 @@
 import 'package:ecommerce/domain/model/Product.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../domain/model/Category.dart';
 import '../../domain/repository/productRepository.dart';
 import '../api_Manager.dart';
 import '../dataSource/productsDataSource.dart';
@@ -19,7 +17,6 @@ class productsDataSourceImp extends ProductsDataSource {
         pageNo,limit,
         productSortBy: productSortBy
         ,categoryid: categoryid??"");
-    print("hi");
     return response.data!.map((productDto) => productDto.toProduct()).toList();
   }
   Future<num?>getSpecificProduct(String productId) async {

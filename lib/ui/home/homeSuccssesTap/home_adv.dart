@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'advImageWidget.dart';
+import 'adv_image_widget.dart';
 
-class homeAdv extends StatefulWidget {
-   homeAdv({Key? key}) : super(key: key);
+class HomeAdv extends StatefulWidget {
+   const HomeAdv({Key? key}) : super(key: key);
 
   @override
-  State<homeAdv> createState() => _homeAdvState();
+  State<HomeAdv> createState() => _HomeAdvState();
 }
 
-class _homeAdvState extends State<homeAdv> {
+class _HomeAdvState extends State<HomeAdv> {
   CarouselController buttonCarouselController = CarouselController();
   int currentPage = 0;
 
@@ -34,7 +34,7 @@ class _homeAdvState extends State<homeAdv> {
           itemCount: 3,
           carouselController: buttonCarouselController,
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-              advImageWidget(results[itemIndex]),
+              AdvImageWidget(results[itemIndex]),
           options: CarouselOptions(
               autoPlay: true,
               height: MediaQuery.of(context).size.height * 0.28,

@@ -15,16 +15,13 @@ class CartlistRepositoryImp extends cartListRepository1 {
 
   @override
   Future<String?> addProductToCartList(String productId, String token) async{
-    print("el amora");
     var response = await CartListDataSource1.addProductToCartList(productId, token);
     return response;
   }
 
   @override
   Future<ProductCartListResponse1?> getProductsCartList(String token) async{
-    print("sd");
     var response = await CartListDataSource1.getProductsCartList(token);
-    print(response);
     return response;
   }
 

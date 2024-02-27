@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/model/Product.dart';
-import '../../domain/useCase/WishListUseCases.dart';
+import '../../domain/useCase/WishListUseCase.dart';
 import '../ProivderViewModel/app_provider.dart';
 
 part 'loved_tap_state.dart';
@@ -31,10 +31,11 @@ class LovedTapCubit extends Cubit<LovedTapState> {
   Future<void> getLovedProductList(String token) async {
     bool isLoggedin = await checkUser();
     if (isLoggedin) {
-      print("logged in");
       emit(LoadingLovedTapState());
       try {
         List<Product>? products = await CartListdUseCases1.invoke_getProductWishList(token);
+        var provider1 = getIt<AppProvider>();
+//provider1.
         emit(SuccessLovedTapState(
           products: products ?? [],
         ));

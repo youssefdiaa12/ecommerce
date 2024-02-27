@@ -8,17 +8,17 @@ import '../../../data/Services/disk_storage.dart';
 import '../../../domain/model/Product.dart';
 import '../../../viewModel/CartListViewModel/cart_list_view_model_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
-class productDetailsCartBodyWidget extends StatefulWidget {
+class ProductDetailsCartBodyWidget extends StatefulWidget {
   final  Product product;
-  bool is_read_more=false;
-  int size_selectedIndex=0,color_selectedIndex=0;
+   bool is_read_more=false;
+  var size_selectedIndex=0,color_selectedIndex=0;
   List <Color> colors=[Colors.red,Colors.green,Colors.blue,Colors.orangeAccent];
-  productDetailsCartBodyWidget(this.product);
+  ProductDetailsCartBodyWidget(this.product);
   @override
-  State<productDetailsCartBodyWidget> createState() => _productDetailsCartBodyWidgetState();
+  State<ProductDetailsCartBodyWidget> createState() => _ProductDetailsCartBodyWidgetState();
 }
 
-class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWidget> {
+class _ProductDetailsCartBodyWidgetState extends State<ProductDetailsCartBodyWidget> {
 
   int currentPage = 0;
   int numberOfProducts=1;
@@ -34,7 +34,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
           carouselController: buttonCarouselController,
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) =>
-              productImageWidget(
+              ProductImageWidget(
                   widget.product.images![itemIndex],
                   itemIndex,
                   widget.product.images!.length,
@@ -103,7 +103,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                       children: [
                         Icon(Icons.star,color: Colors.yellow,size: 22.sp,),
                         SizedBox(width: 3.w,),
-                        Text("${widget.product.ratingsAverage.toString()}",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
+                        Text(widget.product.ratingsAverage.toString(),style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
                         SizedBox(width: 3.w,),
                         Text("(${widget.product.ratingsQuantity.toString()})",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: const Color(0xff06004F)),),
                         SizedBox(width: 10.w,),
@@ -153,7 +153,7 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                             },
                             child: Icon(Icons.remove_circle_outline_rounded,color: Colors.white,size: 24.sp,)),
                       ),
-                      Text("${numberOfProducts}",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: Colors.white),),
+                      Text("$numberOfProducts",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500,color: Colors.white),),
                       Padding(
                         padding:  EdgeInsets.only(right: 4.0.w),
                         child: InkWell(
@@ -344,11 +344,9 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     ]
                 ),
                 ElevatedButton(onPressed:()async{
-                  print("no of products");
-                  print(numberOfProducts);
                   var cubit = BlocProvider.of<CartListViewModelCubit>(context);
-                bool is_autohrized=await cubit.checkAuthority();
-                if(!is_autohrized){
+                bool isAutohrized=await cubit.checkAuthority();
+                if(!isAutohrized){
                   return;
                 }
                 await  disk_storge().add_to_cart_quantity(widget.product.id!, numberOfProducts);
@@ -359,7 +357,12 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                   setState(() {
                   });
 
-                }, child:
+                },style: ElevatedButton.styleFrom(
+                    primary: const Color(0xff004182),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    )
+                ), child:
                 Row(
                   children: [
                     SizedBox(width: 10.w,),
@@ -370,11 +373,6 @@ class _productDetailsCartBodyWidgetState extends State<productDetailsCartBodyWid
                     Text("Add To Cart",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Colors.white)),
                     SizedBox(width: 45.w,)
                   ],
-                ),style: ElevatedButton.styleFrom(
-                    primary: const Color(0xff004182),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )
                 ))
               ]
           ),

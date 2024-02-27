@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../Common/requiredLoginWidget.dart';
 import '../../../di/di.dart';
 import '../../../viewModel/CartListViewModel/cart_list_view_model_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
 import 'package:badges/badges.dart' as badges;
-
 import '../../Authentication/LoginScreen.dart';
 import 'package:provider/provider.dart';
+import '../../payment/payment_form.dart';
+import '../SearchScreen/search_screen.dart';
 import 'cartListCardWidget.dart';
 
 class CartListWidget extends StatefulWidget {
   static const String routeName = 'CartListWidget';
-  String ?perviousRoute;
+  final String ?perviousRoute;
    CartListWidget({this.perviousRoute});
 
   @override
@@ -40,18 +42,26 @@ class _CartListWidgetState extends State<CartListWidget> {
             icon: Icon(
               Icons.arrow_back,
               size: 28.sp,
-              color: Color(0xff06004F),
+              color: const Color(0xff06004F),
             )),
         title: Text(
           "Product Details",
           style: TextStyle(
-              color: Color(0xff06004F),
+              color: const Color(0xff06004F),
               fontWeight: FontWeight.w500,
               fontSize: 20.sp),
         ),
         centerTitle: true,
         actions: [
-          Icon(Icons.search_sharp, size: 28.sp, color: Color(0xff004182)),
+          InkWell(
+              onTap: () {
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: const searchScreen(),
+                  withNavBar: false,
+                );
+              },
+              child: Icon(Icons.search_sharp, size: 28.sp, color: const Color(0xff004182))),
           SizedBox(
             width: 10.w,
           ),
@@ -122,7 +132,7 @@ class _CartListWidgetState extends State<CartListWidget> {
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontFamily: "Poppins",
-                              color: Color(0xff252065),
+                              color: const Color(0xff252065),
                             ))
                       ],
                     ),
@@ -175,12 +185,6 @@ class _CartListWidgetState extends State<CartListWidget> {
                   );
                 }
                 if(state is CartListViewModelSuccess){
-                  print("wooo");
-                  print(state.products.length);
-                  print(state.prices.length);
-                  for(int i=0;i<state.products.length;i++){
-                    print(state.products[i].product?.id);
-                  }
                     return state.products.isEmpty
                       ? Center(
                     child: Column(
@@ -196,7 +200,7 @@ class _CartListWidgetState extends State<CartListWidget> {
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontFamily: "Poppins",
-                            color: Color(0xff252065),
+                            color: const Color(0xff252065),
                           ),
                         )
                       ],
@@ -209,7 +213,7 @@ class _CartListWidgetState extends State<CartListWidget> {
                             physics: const BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                             return
-                            cartListCardWidget(state.products[index].product?.toProduct()??Product(),
+                            CartListCardWidget(state.products[index].product?.toProduct()??Product(),
                                 state.prices[index]??0,provider1.product_cartList_count![state.products[index].product!.id]??0);
                     },
                     itemCount: state.products.length,
@@ -230,25 +234,24 @@ class _CartListWidgetState extends State<CartListWidget> {
                                       ]
                                   ),
                                   ElevatedButton(onPressed:()async{
-                                    // var cubit = BlocProvider.of<CartListViewModelCubit>(context);
-                                    // // await cubit.invoke_addToCart(
-                                    // //     widget.product.id??"",
-                                    // //     AppProvider.user?.token??"",
-                                    // //     numberOfProducts);
-
-                                  }, child:
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                      context,
+                                      screen:PaymentForm(amount:state.total??0),
+                                      withNavBar: false,
+                                    );
+                                  },style: ElevatedButton.styleFrom(
+                                      primary: const Color(0xff004182),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      )
+                                  ), child:
                                   Row(
                                     children: [
                                       SizedBox(width: 10.w,),
                                       Text("Check out",style: TextStyle(fontSize: 20.sp,fontWeight: FontWeight.w500,color: Colors.white)),
                                       SizedBox(width: 45.w,),
-                                      Icon(Icons.arrow_forward,color: Colors.white,),
+                                      const Icon(Icons.arrow_forward,color: Colors.white,),
                                     ],
-                                  ),style: ElevatedButton.styleFrom(
-                                      primary: const Color(0xff004182),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      )
                                   ))
                                 ]
                             ),

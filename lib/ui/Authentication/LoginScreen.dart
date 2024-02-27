@@ -9,7 +9,7 @@ import '../../Common/customFormField.dart';
 import '../../di/di.dart';
 import '../../viewModel/LoginViewModel/login_view_model_cubit.dart';
 import '../../viewModel/ProivderViewModel/app_provider.dart';
-import '../home/homeSuccssesTap/homeScreen.dart';
+import '../home/homeSuccssesTap/home_screen.dart';
 import 'Register.dart';
 import 'package:provider/provider.dart';
 
@@ -36,11 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
         listener: (context, state) async{
           if (state is LoginViewModelSuccess) {
-           await obj.login(state.user.name??"",state.user.token??"",state.user.email??"",state.user.pass??"");
+           await obj.login(state.user?.name??"",state.user?.token??"",state.user?.email??"",state.user?.pass??"",
+               state.user?.phone??"",state.user?.address??"");
             Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const hometap();
+                  return const HomeScreen();
                 },
               ),
               (_) => false,
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if (state is LoginViewModelError) {
             Navigator.of(context, rootNavigator: true).pop();
-            dialogUtilites.showmsg(context, state.error);
+            dialogUtilites.lottieError(context, state.error);
           }
           if (state is LoginViewModelLoading) {
          dialogUtilites.lottieLoading(context, "Loading...");

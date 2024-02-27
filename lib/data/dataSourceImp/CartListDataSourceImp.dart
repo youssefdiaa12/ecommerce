@@ -7,15 +7,12 @@ import '../model/productCartListResponse1/ProductCartListResponse1.dart';
   Api_Manager api_manager;
   @factoryMethod CartListDataSourceImp(this.api_manager);
   Future<String?> addProductToCartList(String productId,String token)async{
-    print("amora");
     return await api_manager.addProductToCartList(productId, token);
   }
   Future<String?> removeProductToCartList(String productId,String token)async{
-    print("dataSource");
     return await api_manager.removeFromCartList(productId, token);
   }
   Future<ProductCartListResponse1?> getProductsCartList(String token)async{
-    print("wewa3");
     return await api_manager.getCartListResponse(token);
   }
   Future<String?>UpdateProductToCartList(String productId, String token,int count) async {

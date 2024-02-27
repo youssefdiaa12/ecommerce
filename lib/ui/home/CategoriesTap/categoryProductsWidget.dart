@@ -6,17 +6,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../di/di.dart';
 import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
-import '../homeLoadingTap/homeProductWidget.dart';
+import '../homeLoadingTap/home_product_widget.dart';
 import 'categoryProuctListWidget.dart';
 
-class categorProductsWidget extends StatefulWidget {
+class CategorProductsWidget extends StatefulWidget {
 static const String routeName="categoriesProductsWidget";
-const categorProductsWidget({super.key});
+const CategorProductsWidget({super.key});
   @override
-  State<categorProductsWidget> createState() => _categorProductsWidgetState();
+  State<CategorProductsWidget> createState() => _CategorProductsWidgetState();
 }
 
-class _categorProductsWidgetState extends State<categorProductsWidget> {
+class _CategorProductsWidgetState extends State<CategorProductsWidget> {
 
   @override
   void initState() {
@@ -63,43 +63,35 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
             if (state is CategoryProductsSuccessful) {
               return state.products.length!=0?Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                        child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 1,
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 12.0,
-                                    ),
-                                    child:
-                                    GridView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      physics:BouncingScrollPhysics(),
-                                      gridDelegate:
-                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            mainAxisSpacing: 10,
-                                            crossAxisSpacing: 8,
-                                            childAspectRatio: 0.75.sp,
-                                      ),
-                                      itemBuilder: (context, index) {
-                                        return categoryProuctListWidget(
-                                            state.products[index]);
-                                      },
-                                      itemCount: state.products.length,
-                                    ),
-                                  ),
-                                ),
-                                Container(height:220.h,)
-
-                              ],
-                            ))),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 8.0,
+                        ),
+                        child:
+                        GridView.builder(
+                          scrollDirection: Axis.vertical,
+                          physics:const BouncingScrollPhysics(),
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 8,
+                            childAspectRatio: 0.55,
+                          ),
+                          itemBuilder: (context, index) {
+                            return CategoryProuctListWidget(
+                                state.products[index]);
+                          },
+                          itemCount: state.products.length,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
+                )
               ):
               Center(
                 child: Text("No Products Found",
@@ -133,7 +125,7 @@ class _categorProductsWidgetState extends State<categorProductsWidget> {
                                         return Shimmer.fromColors(
                                             baseColor: Colors.grey.shade300,
                                             highlightColor: Colors.grey.shade100,
-                                            child: homeProuctLoadingWidget());
+                                            child: HomeProuctLoadingWidget());
                                       },
                                       itemCount: 8,
                                     ),

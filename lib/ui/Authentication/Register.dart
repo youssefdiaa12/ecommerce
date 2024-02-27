@@ -1,13 +1,12 @@
 import 'package:ecommerce/Common/validation.dart';
 import 'package:ecommerce/ui/Authentication/LoginScreen.dart';
-import 'package:ecommerce/ui/home/homeSuccssesTap/homeScreen.dart';
+import 'package:ecommerce/ui/home/homeSuccssesTap/home_screen.dart';
 import 'package:ecommerce/viewModel/ProivderViewModel/app_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:ecommerce/Common/dialogUtilities.dart';
-
 import '../../Common/customFormField.dart';
 import '../../di/di.dart';
 import '../../viewModel/RegisterViewModel/reigster_view_model_cubit.dart';
@@ -36,7 +35,7 @@ class _RegisterState extends State<Register> {
             Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const hometap();
+                  return const HomeScreen();
                 },
               ),
                   (_) => false,
@@ -73,6 +72,7 @@ class _RegisterState extends State<Register> {
                              if(value!.isEmpty||value.length<3){
                                return "Enter your name";
                              }
+                             return null;
                             },
                             "Full Name",
                             lines: 1,
@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
                             if(value!.isEmpty||value.length<11){
                               return "Enter your phone number";
                             }
+                            return null;
                             },
                             "Phone Number",
                             lines: 1,
@@ -116,6 +117,7 @@ class _RegisterState extends State<Register> {
                            if(value!.isEmpty||value.length<6){
                              return "Enter your password";
                            }
+                           return null;
                             },
                             "Password",
                             lines: 1,

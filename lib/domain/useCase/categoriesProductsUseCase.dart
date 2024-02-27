@@ -10,15 +10,12 @@ class categoriesProductsUseCase{
 
   Future<List<Product>> invoke(int pageNo,int Limit,{Category? category})async{
     var obj= await ProductRepository.getProducts(pageNo,Limit,categoryid: category?.id);
-    print("useCase");
-print(obj.length);
+
     return obj;
   }
   Future<num?>getSpecificProduct(String productId) async {
 
    num? price= await ProductRepository.getSpecificProduct(productId);
-   print("repo");
-   print(price);
    return price;
   }
 }

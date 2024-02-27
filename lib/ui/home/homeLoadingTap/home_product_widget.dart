@@ -1,12 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce/domain/model/Product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class homeProuctLoadingWidget extends StatelessWidget {
-  homeProuctLoadingWidget();
+class HomeProuctLoadingWidget extends StatelessWidget {
+  const HomeProuctLoadingWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: 250.w,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
@@ -22,7 +22,7 @@ class homeProuctLoadingWidget extends StatelessWidget {
               children: [
            Container(
           height: 128,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(25),topRight: Radius.circular(25)),
             shape: BoxShape.rectangle,
           ),

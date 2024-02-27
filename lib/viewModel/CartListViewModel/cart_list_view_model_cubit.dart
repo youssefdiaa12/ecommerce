@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import '../../data/Services/disk_storage.dart';
 import '../../data/model/User/UserCartList.dart';
 import '../../data/model/User/user_cart_list_dao.dart';
-import '../../data/model/productCartListResponse1/ProductCartListResponse1.dart';
 import '../../data/model/productCartListResponse1/Products.dart';
 import '../../di/di.dart';
 import '../../domain/useCase/CartListUseCase.dart';
@@ -28,24 +27,18 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
 
     emit(CartListViewModelLoading());
     try{
-      ProductCartListResponse1? response=await cartListdUseCase.invoke_getProductCartList(token);
-      if(response!=null){
         List<num?>prices=[];
         num total=0;
         AppProvider appProvider = getIt<AppProvider>();
+        await appProvider.getCartList(AppProvider.user?.token??"");
         for (var i = 0; i < appProvider.products_cartList!.length; i++) {
+
           num price= appProvider.products_cartList![i].price??0;
-          num count=await disk_storge().get_cart_product(appProvider.products_cartList![i].product!.id??"");
-          appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id??""]=count.toInt();
-          print("the counter is");
-          print(count);
-          print("the price is");
-          print(price);
+          num count=appProvider.product_cartList_count![appProvider.products_cartList![i].product!.id??""]?? 0;
           prices.add(price*count);
           total+=(price*count);
-        }
-        emit(CartListViewModelSuccess( response.data?.products??[],prices,total));
       }
+        emit(CartListViewModelSuccess( appProvider.products_cartList??[],prices,total));
     }
     catch(e){
       emit(CartListViewModelFailure(e.toString()));
@@ -58,10 +51,7 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
     try {
       var response =  await cartListdUseCase.invoke_addToCart(productId, token, count);
       if (response == "Product added successfully to your cart") {
-        print("Product added successfully to your cart");
-        print("app");
         AppProvider appProvider = getIt<AppProvider>();
-        print(productId);
         List<num?>prices=[];
         int val=appProvider.product_cartList_count![productId]??0;
         val=val+count;
@@ -99,13 +89,11 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
     try {
       var response =  await cartListdUseCase.invoke_removeFromCart(productId, token);
       if (response == "success") {
-        print("fih");
         List<num?>prices=[];
         num total=0;
         AppProvider appProvider = getIt<AppProvider>();
         appProvider.product_cartList_count!.remove(productId);
         appProvider.products_cartList!.removeWhere((element) => element.product!.id == productId);
-        print("sz");
         UserCartList taskia=UserCartList(productId,0);
         CartListDao.deleteTask(taskia,AppProvider.user_fire_base?.id??"");
         print(appProvider.product_cartList_count!.length);
@@ -126,7 +114,6 @@ class CartListViewModelCubit extends Cubit<CartListViewModelState> {
       }
     }
     catch (e) {
-      print(e);
       emit(CartListViewModelFailure(e.toString()));
     }
   }

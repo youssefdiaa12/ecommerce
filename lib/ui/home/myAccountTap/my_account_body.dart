@@ -1,7 +1,8 @@
+import 'package:ecommerce/Common/dialogUtilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:provider/provider.dart';
 import '../../../Common/customFormFieldForAccount.dart';
 import '../../../Common/validation.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
@@ -16,9 +17,15 @@ class MyAccountBody extends StatefulWidget {
 class _MyAccountBodyState extends State<MyAccountBody> {
   var keyform = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    super.initState();
 
+  }
   @override
   Widget build(BuildContext context) {
+
+    AppProvider provider1 = Provider.of<AppProvider>(context);
 
     var cubit = BlocProvider.of<UpdateUserDataCubit>(context);
     return  SingleChildScrollView(
@@ -179,6 +186,7 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                    mainAxisAlignment: MainAxisAlignment.center,
                children: [
                  ElevatedButton(onPressed:()async{
+
                    if(keyform.currentState!.validate()==false){
                      return;
                    }
@@ -249,7 +257,36 @@ class _MyAccountBodyState extends State<MyAccountBody> {
                  )
                ]
              )),
-           )
+           ),
+              SizedBox(
+                height: 40.h,
+              ),
+              Container(
+                margin:EdgeInsets.symmetric(horizontal: 8.w),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        MaterialStateProperty.all(Theme.of(context).primaryColor),
+                        shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            )),
+                        minimumSize: MaterialStateProperty.all(
+                          Size(double.infinity, 60.h),
+                        )),
+                    onPressed:() async{
+                      dialogUtilites.lottieLogOut(context,provider1);
+
+                }, child: Text(
+                  "Logout",style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w500,
+                  ),
+                )),
+              ),
+              SizedBox(height:15.h,)
 
             ]
           ),

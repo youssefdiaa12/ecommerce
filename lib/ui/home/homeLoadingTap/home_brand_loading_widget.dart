@@ -1,12 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce/domain/model/Brand.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/model/Category.dart';
 
-class homeBrandLoadingWidget extends StatelessWidget {
+class HomeBrandLoadingWidget extends StatelessWidget {
 
-  homeBrandLoadingWidget();
+  const HomeBrandLoadingWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(

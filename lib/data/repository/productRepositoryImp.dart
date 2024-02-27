@@ -15,14 +15,12 @@ class productRepositoryImp extends productRepository {
          pageNo,limit,
         productSortBy: sortBy,
         categoryid: categoryid??"");
-    print("repos");
     return obj;
 
   }
   Future<num?>getSpecificProduct(String productId) async {
    num? price= await OnlineProductsDataSource.getSpecificProduct(productId);
-   print("repo1");
-   print(price);
+
    return price;
   }
 }

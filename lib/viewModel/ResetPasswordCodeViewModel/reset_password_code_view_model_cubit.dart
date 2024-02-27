@@ -14,7 +14,6 @@ class ResetPasswordCodeViewModelCubit extends Cubit<ResetPasswordCodeViewModelSt
    emit(ResetPasswordViewModelLoading());
    try {
      String? result = await resetPasswordUseCase1.invoke(code);
-     print("koko");
      if(result!="Success"){
        print(result);
        emit(ResetPasswordViewModelError(result??""));

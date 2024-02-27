@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,29 +11,26 @@ import '../../../viewModel/ProivderViewModel/app_provider.dart';
 import '../CategoriesTap/productDetailsCartWidget.dart';
 import 'package:provider/provider.dart';
 
-class cartListCardWidget extends StatefulWidget {
-  Product product;
-  num price;
-  int   numberOfProducts;
+class CartListCardWidget extends StatefulWidget {
+    Product product;
+   num price;
+   int   numberOfProducts;
 
-  cartListCardWidget(this.product, this.price, this.numberOfProducts,{Key? key}) : super(key: key);
+  CartListCardWidget(this.product, this.price, this.numberOfProducts,{Key? key}) : super(key: key);
 
 
   @override
-  State<cartListCardWidget> createState() => _cartListCardWidgetState();
+  State<CartListCardWidget> createState() => _CartListCardWidgetState();
 }
 
-class _cartListCardWidgetState extends State<cartListCardWidget> {
+class _CartListCardWidgetState extends State<CartListCardWidget> {
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<CartListViewModelCubit>(context);
     var appProvide=Provider.of<AppProvider>(context);
     return InkWell(
       onTap: () async{
-        print(widget.product.id);
-        print("dada");
         widget.product.price=widget.price;
-        print(widget.product.price);
         Product obj=await appProvide.getSpecificeProduct(widget.product.id??'');
         PersistentNavBarNavigator.pushNewScreen(context, screen: productDetailsCartWidget(obj),
             withNavBar:false);
@@ -144,7 +139,7 @@ class _cartListCardWidgetState extends State<cartListCardWidget> {
                           ),
                         ]),
                   ),
-                  Spacer(),
+                 const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0,bottom: 8.0),
                     child: Container(
@@ -164,11 +159,13 @@ class _cartListCardWidgetState extends State<cartListCardWidget> {
                               padding:  EdgeInsets.only(left: 4.w),
                               child: InkWell(
                                   onTap: () async{
-                                    if (widget.numberOfProducts == 1) {
+                                    int counter=appProvide.product_cartList_count![widget.product.id]??0;
+
+                                    if (counter-1<= 0) {
                                       //show toast
                                       Fluttertoast.showToast(
                                         webPosition: 'center',
-                                        msg: "This is the minimum",
+                                        msg: "This is the minimum!: if you want delete press remove",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 3,
@@ -177,18 +174,26 @@ class _cartListCardWidgetState extends State<cartListCardWidget> {
                                         fontSize: 16.0,
                                       );
                                     } else {
-                                     await cubit.invoke_addToCart(widget.product.id!,AppProvider.user?.token??"", -1);
-                                      await    disk_storge().add_to_cart_quantity(widget.product.id!, -1);
-                                      setState((){
-                                        double item=widget.price/widget.numberOfProducts.toDouble();
-                                        widget.numberOfProducts--;
-                                        widget.price-=item;
-                                        widget.price=widget.price.roundToDouble();
-                                        //remove the number after the dot
-                                        widget.price=widget.price.toInt();
-                                       cubit.invoke_getProductCartList(AppProvider.user?.token??"");
-                                    //   appProvider.product_cartList_count![widget.product.id!] = widget.numberOfProducts;
-                                      });
+                                      await cubit.invoke_addToCart(
+                                          widget.product.id!,
+                                          AppProvider.user?.token ?? "", -1);
+                                      await disk_storge().add_to_cart_quantity(
+                                          widget.product.id!, -1);
+                                      if (mounted) {
+                                        setState(() {
+                                          double item = widget.price /
+                                              widget.numberOfProducts
+                                                  .toDouble();
+                                          widget.numberOfProducts--;
+                                          widget.price -= item;
+                                          widget.price =
+                                              widget.price.roundToDouble();
+                                          //remove the number after the dot
+                                          widget.price = widget.price.toInt();
+                                          //   cubit.invoke_getProductCartList(AppProvider.user?.token??"");
+                                          //   appProvider.product_cartList_count![widget.product.id!] = widget.numberOfProducts;
+                                        });
+                                      }
                                     }
 
                                   },
@@ -199,20 +204,31 @@ class _cartListCardWidgetState extends State<cartListCardWidget> {
                               padding:  EdgeInsets.only(right: 4.0.w),
                               child: InkWell(
                                   onTap: ()async {
-                                    if(widget.numberOfProducts<widget.product.quantity!.toInt()) {
-                                      await cubit.invoke_addToCart(widget.product.id!,AppProvider.user?.token??"", 1);
-
-                                      await disk_storge().add_to_cart_quantity(widget.product.id!, 1);
-                                      setState(()  {
-                                        double item=widget.price/widget.numberOfProducts.toDouble();
-                                       widget.numberOfProducts++;
-                                       widget.price+=item;
-                                        widget.price=widget.price.roundToDouble();
-                                        //remove the number after the dot
-                                        widget.price=widget.price.toInt();
-                                       cubit.invoke_getProductCartList(AppProvider.user?.token??"");
-                                      // appProvider.product_cartList_count![widget.product.id!] = widget.numberOfProducts;
-                                      });
+                                    // 1   2   3
+                                    //(10 11 12)|| 3
+                                    //15
+                                    // 2  3  4
+                                    int counter=appProvide.product_cartList_count![widget.product.id]??0;
+                                    if(counter+1<widget.product.quantity!.toInt()) {
+                                      await cubit.invoke_addToCart(
+                                          widget.product.id!,
+                                          AppProvider.user?.token ?? "", 1);
+                                      await disk_storge().add_to_cart_quantity(
+                                          widget.product.id!, 1);
+                                      double item = widget.price /
+                                          widget.numberOfProducts.toDouble();
+                                      widget.numberOfProducts++;
+                                      widget.price += item;
+                                      widget.price =
+                                          widget.price.roundToDouble();
+                                      //remove the number after the dot
+                                      widget.price = widget.price.toInt();
+                                      // await  cubit.invoke_getProductCartList(AppProvider.user?.token??"");
+                                      if (mounted) {
+                                        setState(() {
+                                          // appProvider.product_cartList_count![widget.product.id!] = widget.numberOfProducts;
+                                        });
+                                      }
                                     }
                                     else{
                                       Fluttertoast.showToast(

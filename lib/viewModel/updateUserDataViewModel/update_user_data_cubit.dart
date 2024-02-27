@@ -51,15 +51,6 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
         nameController.text != AppProvider.user?.name ||
         phoneController.text != AppProvider.user?.phone ||
         addressController.text != AppProvider.user?.address) {
-      print(emailController.text);
-      print(nameController.text);
-      print(phoneController.text);
-      print(addressController.text);
-      print(AppProvider.user?.email);
-      print(AppProvider.user?.name);
-      print(AppProvider.user?.phone);
-      print(AppProvider.user?.address);
-      print("data_changed");
       return true;
     }
     return false;
@@ -67,25 +58,12 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
 
   bool is_password_changed_check() {
     if (passwordController.text != AppProvider.user?.pass) {
-      print("pass_changed");
-      print(passwordController.text);
-      print(AppProvider.user?.pass);
       return true;
     }
     return false;
   }
 
   bool is_changed_occur() {
-    print("is_phonenumber_changed");
-    print(is_changes[4]);
-    print("is_email_changed");
-    print(is_changes[1]);
-    print("is_password_changed");
-    print(is_changes[2]);
-    print("is_address_changed");
-    print(is_changes[4]);
-    print("is_name_changed");
-    print(is_changes[0]);
     return is_changes[0] || is_changes[1] || is_changes[2] || is_changes[3] ||
         is_changes[4];
   }
@@ -96,31 +74,24 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
     emit(UpdateUserDataLoading());
     String? response;
     try{
-      print("sama");
-      print(FirebaseAuth.instance.currentUser);
-      print(AppProvider.user?.pass);
-      if(FirebaseAuth.instance.currentUser!=null&&!FirebaseAuth.instance.currentUser!.emailVerified){
-        await FirebaseAuth.instance.currentUser?.sendEmailVerification();
-        emit(verfiyUser());
-        return;
-      }
       // final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       //     email:"youssefdiaa2222@icloud.com"??"",
       //     password:  AppProvider.user?.pass ?? "");
       // var message = "error";
       // final user = userCredential.user;
       // await user?.updateEmail(email).then((value) => message = "Success");
-      var message = "error";
-      final userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-          email: email, password:AppProvider.user?.pass ?? "");
-      final user = userCredential.user;
-
-      await user?.updateEmail(email).then((value) => message = "Success");
-      print(message);
+      await FirebaseAuth.instance.currentUser?.updateEmail(email);
+      // if(FirebaseAuth.instance.currentUser!=null&&!FirebaseAuth.instance.currentUser!.emailVerified){
+      //   await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+      //   emit(verfiyUser());
+      //   return;
+      // }
 
       //await FirebaseAuth.instance.currentUser?.updateEmail(email);
       AppProvider.user_fire_base?.email=email;
+      AppProvider.user_fire_base?.name=name;
+      AppProvider.user_fire_base?.phone=phone;
+      AppProvider.user_fire_base?.address=address;
     }
   on FirebaseAuthException catch(e){
       print(e);
@@ -130,9 +101,6 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
           name, email, phone, token);
       if (response == "success") {
         AppProvider appProvider = getIt<AppProvider>();
-        print("z8rota");
-        print(name);
-        print(email);
 //         Future<String> updateemail(String email, String password) async {
 // //email:new email
 //           var message = "error";
@@ -145,7 +113,6 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
 //           } catch (e) {}
 //           return message;
 //         }
-        print("llllll");
         UserDaoFireBase.updateuser(AppProvider.user_fire_base!);
        await appProvider.saveUser(
             name, token, email, phone, address, AppProvider.user?.pass ?? "");
@@ -166,20 +133,14 @@ class UpdateUserDataCubit extends Cubit<UpdateUserDataState> {
   }
   void update() {
     emit(update1());
-    print("update");
-    print(is_change);
   }
   Future<String?> updateUserPass(String currentPass, String password,
       String token) async {
-    print("oldToken");
-    print(token);
     emit(UpdateUserDataLoading());
     try {
       String? response = await updateUserData1.invoke_update_user_password(
           currentPass, password, token);
       if (response != "Error") {
-        print("newToken");
-        print(response);
         AppProvider appProvider = getIt<AppProvider>();
        await appProvider.saveUser(AppProvider.user?.name ?? "", response ?? "",
             AppProvider.user?.email ?? "", AppProvider.user?.phone ?? ""

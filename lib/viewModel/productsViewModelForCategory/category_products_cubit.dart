@@ -20,7 +20,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
     this.category=category;
     emit(CategoryProductsLoading());
     try {
-      List<Product> products = await categoriesProductsUseCase1.invoke(0, 40,category: category);
+      List<Product> products = await categoriesProductsUseCase1.invoke(0, 60,category: category);
 
       emit(CategoryProductsSuccessful(products));
     } catch (e) {

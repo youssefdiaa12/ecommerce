@@ -12,8 +12,8 @@ import '../../resources/responsive_ui_helper.dart';
 
 class verifyResetPasswordWidget extends StatefulWidget {
   static const routeName = 'verifyResetPasswordWidget';
-  String email;
-  verifyResetPasswordWidget({Key? key, required this.email}) : super(key: key);
+  final String email;
+  const verifyResetPasswordWidget({Key? key, required this.email}) : super(key: key);
   @override
   State<verifyResetPasswordWidget> createState() => _verifyResetPasswordWidgetState();
 }
@@ -73,8 +73,8 @@ class _verifyResetPasswordWidgetState extends State<verifyResetPasswordWidget> {
                           onPressed: () {
                             Navigator.of(context).pop();
                             PersistentNavBarNavigator.pushNewScreenWithRouteSettings(context,
-                                screen:  resetPasswordWidget(email:widget.email),
-                                withNavBar: false, settings: RouteSettings(name: resetPasswordWidget.routeName));
+                                screen:  ResetPasswordWidget(email:widget.email),
+                                withNavBar: false, settings: RouteSettings(name: ResetPasswordWidget.routeName));
 
 
                           },

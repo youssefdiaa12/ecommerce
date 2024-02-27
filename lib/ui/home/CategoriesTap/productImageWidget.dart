@@ -8,20 +8,23 @@ import '../../../viewModel/CartListViewModel/cart_list_view_model_cubit.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
 import 'package:provider/provider.dart';
 
-class productImageWidget extends StatefulWidget {
+class ProductImageWidget extends StatefulWidget {
   String image,id;
-  int currentPage,length;
-  productImageWidget(this.image, this.currentPage, this.length, this.id, {super.key});
+ final int currentPage,length;
+   ProductImageWidget(this.image, this.currentPage, this.length, this.id, {super.key});
 
   @override
-  State<productImageWidget> createState() => _productImageWidgetState();
+  State<ProductImageWidget> createState() => _ProductImageWidgetState();
 }
 
-class _productImageWidgetState extends State<productImageWidget> {
+class _ProductImageWidgetState extends State<ProductImageWidget> {
   @override
   Widget build(BuildContext context) {
     var cubit = BlocProvider.of<CartListViewModelCubit>(context);
-    AppProvider api_Provider = Provider.of<AppProvider>(context);
+    AppProvider apiProvider = Provider.of<AppProvider>(context);
+    if(widget.image.startsWith("https://ecommerce.routemisr.com/Route-Academy-products/")==false){
+      widget.image="https://ecommerce.routemisr.com/Route-Academy-products/"+widget.image;
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 48.0, vertical: 12),
@@ -31,7 +34,7 @@ class _productImageWidgetState extends State<productImageWidget> {
           Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 8,vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   color: Colors.white10,
@@ -54,17 +57,17 @@ class _productImageWidgetState extends State<productImageWidget> {
                             return Container(
                               height: 398.h,
                               width: 300.w,
-                              child: Image(image: imageProvider,),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
-                              )
+                              ),
+                              child: Image(image: imageProvider,)
                             );
                           }
                         ),
                         AnimatedSmoothIndicator(
                           activeIndex: widget.currentPage,
                           count: widget.length,
-                          effect: ExpandingDotsEffect(dotColor: Colors.grey,activeDotColor:Color(0xff06004F) ,
+                          effect: const ExpandingDotsEffect(dotColor: Colors.grey,activeDotColor:Color(0xff06004F) ,
                             dotHeight: 10,
                             dotWidth: 10,
                           ),
@@ -81,11 +84,11 @@ class _productImageWidgetState extends State<productImageWidget> {
             decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(25),
       color: Colors.transparent),
-      child: api_Provider.isFavorite(widget.id)?
+      child: apiProvider.isFavorite(widget.id)?
              InkWell(
               onTap: () async {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Color(0xff06004F),
+                    backgroundColor: const Color(0xff06004F),
                     content: Row(
                       children: [
                         Text("Loading ...",
@@ -103,7 +106,7 @@ class _productImageWidgetState extends State<productImageWidget> {
                       ],
                     )));
 
-                String result = await api_Provider
+                String result = await apiProvider
                     .removeFromFavorite(widget.id);
                 if (result != "success") {
                   // ignore: use_build_context_synchronously
@@ -117,7 +120,7 @@ class _productImageWidgetState extends State<productImageWidget> {
                   // ignore: use_build_context_synchronously
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      backgroundColor:Color(0xff06004F),
+                      backgroundColor:const Color(0xff06004F),
                       content: Row(
                         children: [
                           Text("Removed from favorites",
@@ -150,12 +153,12 @@ class _productImageWidgetState extends State<productImageWidget> {
             )
               : InkWell(
             onTap: () async {
-              bool is_logged= await cubit.checkAuthority();
-              if(!is_logged){
+              bool isLogged= await cubit.checkAuthority();
+              if(!isLogged){
                 return;
               }
 
-              String result = await api_Provider
+              String result = await apiProvider
                   .addToFavorite(widget.id );
               if (result != "success") {
                 dialogUtilites.lottieError(
@@ -163,7 +166,7 @@ class _productImageWidgetState extends State<productImageWidget> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: Color(0xff06004F),
+                    backgroundColor: const Color(0xff06004F),
                     content: Row(
                       children: [
                         Text("Added to favorites",
@@ -185,7 +188,6 @@ class _productImageWidgetState extends State<productImageWidget> {
                 if (mounted) {
                   setState(
                         () {
-                      print("added to favorites");
                       // Your state update logic here
                     },
                   );

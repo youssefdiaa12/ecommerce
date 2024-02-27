@@ -1,30 +1,30 @@
-import 'package:ecommerce/ui/home/homeLoadingTap/homeCategoryLoadingWidget.dart';
-import 'package:ecommerce/ui/home/homeSuccssesTap/homeCategoryWidget.dart';
+import 'package:ecommerce/ui/home/homeLoadingTap/home_category_loading_widget.dart';
+import 'package:ecommerce/ui/home/homeSuccssesTap/home_category_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../domain/model/Category.dart';
 
-class home_all_categories extends StatefulWidget {
+class HomeAllCategories extends StatefulWidget {
   List<Category> categories=[];
-  home_all_categories(this.categories);
+  HomeAllCategories(this.categories, {super.key});
   @override
-  State<home_all_categories> createState() => _home_all_categoriesState();
+  State<HomeAllCategories> createState() => _HomeAllCategoriesState();
 }
 
-class _home_all_categoriesState extends State<home_all_categories> {
+class _HomeAllCategoriesState extends State<HomeAllCategories> {
   @override
   Widget build(BuildContext context) {
-         return widget.categories.isEmpty?Center(
-      child: homeCategoryLoadingWidget(),
+         return widget.categories.isEmpty?const Center(
+      child: HomeCategoryLoadingWidget(),
     ):
     Scaffold(
       body: Padding(
         padding:  EdgeInsets.only(top: 10.0.h),
-        child: GridView.builder(gridDelegate:SliverGridDelegateWithFixedCrossAxisCount(
+        child: GridView.builder(gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
         ), itemBuilder:(context, index) {
-          return homeCategoryWidget(widget.categories[index]);
+          return HomeCategoryWidget(widget.categories[index]);
         },
           itemCount: widget.categories.length,
         ),

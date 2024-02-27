@@ -6,9 +6,9 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../domain/model/Category.dart';
 import '../CategoriesTap/categoryProductsWidget.dart';
 
-class homeBrandWidget extends StatelessWidget {
-  Brand brand;
-  homeBrandWidget(this.brand);
+class HomeBrandWidget extends StatelessWidget {
+  final Brand brand;
+  const HomeBrandWidget(this.brand, {super.key});
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,8 +20,8 @@ class homeBrandWidget extends StatelessWidget {
           slug: brand.slug
         );
         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(context,
-            screen: categorProductsWidget(),
-            withNavBar: true, settings:RouteSettings(name: categorProductsWidget.routeName,
+            screen: const CategorProductsWidget(),
+            withNavBar: true, settings:RouteSettings(name: CategorProductsWidget.routeName,
                 arguments:object ));
 
       },
@@ -33,11 +33,10 @@ class homeBrandWidget extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.cover,
             imageUrl: brand.image??"",
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           Text(brand.name??"",style:Theme.of(context).textTheme.titleMedium,maxLines: 2,
-          overflow: TextOverflow.ellipsis,)
-
+          overflow: TextOverflow.ellipsis,),
         ],
       ),
     );

@@ -7,27 +7,25 @@ import 'package:ecommerce/ui/home/CategoriesTap/productDetailsCartWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
-
+import '../../../Common/flash_bar.dart';
 import '../../../viewModel/ProivderViewModel/app_provider.dart';
-import '../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
 import '../../../viewModel/productsViewModelForCategory/category_products_cubit.dart';
 
-class categoryProuctListWidget extends StatefulWidget {
-  Product product;
+class CategoryProuctListWidget extends StatefulWidget {
+  final Product product;
 
-  categoryProuctListWidget(this.product, {super.key});
+  CategoryProuctListWidget(this.product, {super.key});
 
   @override
-  State<categoryProuctListWidget> createState() => _categoryProuctListWidgetState();
+  State<CategoryProuctListWidget> createState() => _CategoryProuctListWidgetState();
 }
 
-class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
+class _CategoryProuctListWidgetState extends State<CategoryProuctListWidget> {
   @override
   Widget build(BuildContext context) {
-    AppProvider api_Provider = Provider.of<AppProvider>(context);
+    AppProvider apiProvider = Provider.of<AppProvider>(context);
     var cubit1 = BlocProvider.of<CategoryProductsCubit>(context);
 
     return InkWell(
@@ -37,7 +35,7 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
         );
       },
       child: Container(
-        width: 250.w,
+        margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
             border: Border.all(color: const Color(0xff06004F), width: 1)),
@@ -51,7 +49,7 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                 CachedNetworkImage(
                     imageBuilder: (context, imageProvider) {
                       return Container(
-                        height: 128.h,
+                        height: 200.h,
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(25),
@@ -68,7 +66,7 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: Colors.transparent),
-                  child: api_Provider.isFavorite(widget.product.id ?? "")
+                  child: apiProvider.isFavorite(widget.product.id ?? "")
                       ? InkWell(
                     onTap: () async {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -89,41 +87,13 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                               )
                             ],
                           )));
-                      String result = await api_Provider
+                      String result = await apiProvider
                           .removeFromFavorite(widget.product.id ?? "");
                       if (result != "success") {
                         dialogUtilites.lottieError(
                             context, "some thing went wrong");
                       } else {
-
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            content: Row(
-                              children: [
-                                Text("Removed from favorites",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Poppins",
-                                      fontSize: 18.sp,
-                                    )),
-                                const Spacer(),
-                                Icon(
-                                  Icons.heart_broken_sharp,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-
-                        if (mounted) {
-                          setState(() {
-                            // Your state update logic here
-                          });
-                        }
+                        showFlushBar("Removed From Favorite",context,isError:true);
                       }
                     },
                     child: Image.asset(
@@ -133,45 +103,17 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
                   )
                       : InkWell(
                     onTap: () async {
-                      bool is_logged1= await cubit1.checkAuthority();
-                      if(!is_logged1){
+                      bool isLogged1= await cubit1.checkAuthority();
+                      if(!isLogged1){
                         return;
                       }
-                      String result = await api_Provider
+                      String result = await apiProvider
                           .addToFavorite(widget.product.id ?? "");
                       if (result != "success") {
                         dialogUtilites.lottieError(
                             context, "some thing went wrong");
                       } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            content: Row(
-                              children: [
-                                Text("Added to favorites",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Poppins",
-                                      fontSize: 18.sp,
-                                    )),
-                                const Spacer(),
-                                Icon(
-                                  Icons.favorite,
-                                  color: Colors.white,
-                                  size: 20.sp,
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                        if (mounted) {
-                          setState(
-                                () {
-                              print("added to favorites");
-                              // Your state update logic here
-                            },
-                          );
-                        }
+                        showFlushBar("Added to favorites",context,isError:false);
                       }
                     },
                     child: Image.asset(
@@ -186,64 +128,78 @@ class _categoryProuctListWidgetState extends State<categoryProuctListWidget> {
               padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Text(
                 widget.product.title ?? "",
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xff06004F),
+                  color: const Color(0xff06004F),
                   fontSize:20.sp,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w400,
                 ),
-                maxLines: 2,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
-              child: Row(children: [
-                 Text("EGP", style: TextStyle(color: Theme.of(context).primaryColor)),
-                Padding(
-                  padding:  EdgeInsets.only(left: 2.0.w),
-                  child: Text(widget.product.price.toString(),
-                  style:TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 22.sp,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.w400,
-                  ),
-                  ),
-                ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding:  EdgeInsets.only(left: 2.0.w),
+                      child: Text(widget.product.price.toString(),
+                        style:TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 22.sp,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10.0.w,),
+                    Text("EGP", style: TextStyle(color: Theme.of(context).primaryColor)),
+
               ]),
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              padding: EdgeInsets.symmetric(horizontal: 4.0.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(children: [
-                    Text("Review(${widget.product.ratingsAverage ?? ""})",
-                        style:  TextStyle(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Review(${widget.product.ratingsAverage ?? ""})",
+                        style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Roboto",
-                          color: Color(0xff06004F),
-                        )),
-                     Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                      size: 20.sp,
-                      weight: 100,
+                          color: const Color(0xff06004F),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      5,
+                          (index) => Icon(
+                        Icons.star,
+                        color: (widget.product.ratingsAverage ?? 0) >= (index + 1)
+                            ? Colors.amber
+                            : Colors.grey,
+                        size: 20.sp,
+                        // You can adjust the size based on your preference
+                      ),
                     ),
-                  ]),
-                   Padding(
-                    padding: EdgeInsets.all(4.0.sp),
-                    child: Icon(
-                      Icons.add_circle_sharp,
-                      color: Color(0xff004182),
-                      size: 42.sp,
-                    ),
-                  )
+                  ),
                 ],
               ),
             )
+
           ],
         ),
       ),

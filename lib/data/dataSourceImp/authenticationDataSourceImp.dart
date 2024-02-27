@@ -22,14 +22,12 @@ class authenticationDataSourceImp extends authenticationDataSource {
   }
   Future<String?>ResetPasswordCode(String code) async{
     var response= await apiManager.ResetPasswordCode(code);
-    print(response);
-    print("dataSource");
+
     return response;
   }
   Future<String?>ResetPassword(String email,String password) async{
     var response= await apiManager.ResetPassword(email, password);
-    print("dataSource imp");
-    print(response);
+
     return response;
   }
 }

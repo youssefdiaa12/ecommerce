@@ -1,10 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../domain/model/Category.dart';
-
-class homeCategoryLoadingWidget extends StatelessWidget {
-homeCategoryLoadingWidget();
+class HomeCategoryLoadingWidget extends StatelessWidget {
+const HomeCategoryLoadingWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(

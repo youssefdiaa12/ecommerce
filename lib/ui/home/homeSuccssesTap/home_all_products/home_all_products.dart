@@ -1,28 +1,28 @@
 import 'package:ecommerce/di/di.dart';
 import 'package:ecommerce/domain/model/Product.dart';
-import 'package:ecommerce/ui/home/homeLoadingTap/homeProductWidget.dart';
-import 'package:ecommerce/ui/home/homeSuccssesTap/homeProductWidget.dart';
+import 'package:ecommerce/ui/home/homeLoadingTap/home_product_widget.dart';
+import 'package:ecommerce/ui/home/homeSuccssesTap/home_product_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../viewModel/homeTapViewModel/home_tap_view_model_cubit.dart';
 
-class home_all_products extends StatefulWidget {
+class HomeAllProducts extends StatefulWidget {
   List<Product> products = [];
 
-  home_all_products(this.products);
+  HomeAllProducts(this.products, {super.key});
 
   @override
-  State<home_all_products> createState() => _home_all_productsState();
+  State<HomeAllProducts> createState() => _HomeAllProductsState();
 }
 
-class _home_all_productsState extends State<home_all_products> {
+class _HomeAllProductsState extends State<HomeAllProducts> {
   @override
   Widget build(BuildContext context) {
 
-    return widget.products.isEmpty ? Center(
-      child: homeProuctLoadingWidget(),
+    return widget.products.isEmpty ? const Center(
+      child: HomeProuctLoadingWidget(),
     ) :
     Scaffold(
       body: BlocProvider(
@@ -31,14 +31,14 @@ class _home_all_productsState extends State<home_all_products> {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 10.0.h,horizontal: 4.w),
           child: GridView.builder(
-            physics:BouncingScrollPhysics(),
+            physics:const BouncingScrollPhysics(),
             gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio:0.85.sp
+              childAspectRatio:0.5.sp
             ), itemBuilder: (context, index) {
-            return homeProuctWidget(widget.products[index]);
+            return HomeProuctWidget(widget.products[index]);
           },
             itemCount: widget.products.length,
           ),

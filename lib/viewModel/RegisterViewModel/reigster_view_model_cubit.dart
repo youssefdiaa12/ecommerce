@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
-
 import '../../data/model/User/FireBaseUser.dart';
 import '../../data/model/User/UseDaoFireBase.dart';
 import '../ProivderViewModel/app_provider.dart';
@@ -26,12 +25,13 @@ registerationUseCase registerationUseCase1;
    emit(ReigsterViewModelLoading());
   final response= await FirebaseAuth.instance.createUserWithEmailAndPassword(email:emailController.text, password: passwordController.text);
    await UserDaoFireBase.createuser(FireBaseUser(
+       userName.text,
        emailController.text,
-       response.user?.uid,
+       phoneNumber.text,
+   "",
+   response.user?.uid,
    ));
-   print(response.user?.uid);
    AppProvider.user_fire_base=await UserDaoFireBase.getuser(response.user?.uid);
-   print("dido");
   }
  on FirebaseAuthException catch(e){
    emit(ReigsterViewModelError(e.toString()));
@@ -44,7 +44,6 @@ registerationUseCase registerationUseCase1;
        passwordController.text,
        confirmPasswordController.text,
        phoneNumber.text);
-   print(User1);
    emit(ReigsterViewModelSuccess(User1 as User_api));
   }
   catch(e){

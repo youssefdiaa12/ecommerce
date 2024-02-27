@@ -6,16 +6,16 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../domain/model/Category.dart';
 import 'package:ecommerce/ui/home/CategoriesTap/categoryProductsWidget.dart';
 
-class homeCategoryWidget extends StatelessWidget {
-Category category;
-homeCategoryWidget(this.category);
+class HomeCategoryWidget extends StatelessWidget {
+final Category category;
+const HomeCategoryWidget(this.category, {super.key});
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
         PersistentNavBarNavigator.pushNewScreenWithRouteSettings(context,
-            screen: categorProductsWidget(),
-            withNavBar: true, settings:RouteSettings(name: categorProductsWidget.routeName,
+            screen: const CategorProductsWidget(),
+            withNavBar: true, settings:RouteSettings(name: CategorProductsWidget.routeName,
                 arguments:category ));      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -23,23 +23,22 @@ homeCategoryWidget(this.category);
           CachedNetworkImage(
             imageBuilder:(context, imageProvider) {
               return Container(
-                  height: 65.h,
-                  width: 65.w,
+                width: 75.w,
+                height: 75.h,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      borderRadius:BorderRadius.circular(45),
                       image: DecorationImage(
                           image: imageProvider,
-
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                       )
                   )
               );
             },
-            height: 65.h,
-            width: 65.w,
+            height: 75.h,
+            width: 75.w,
             fit: BoxFit.cover,
             imageUrl: category.image??"",
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
           SizedBox(height: 5.h,),
           Text(category.name??"",style:  Theme.of(context).textTheme.titleMedium,)
