@@ -36,7 +36,7 @@ class _HomeAllProductsState extends State<HomeAllProducts> {
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio:0.5.sp
+              childAspectRatio:0.65
             ), itemBuilder: (context, index) {
             return HomeProuctWidget(widget.products[index]);
           },

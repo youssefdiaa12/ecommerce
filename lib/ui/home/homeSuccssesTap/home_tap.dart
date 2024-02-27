@@ -80,6 +80,9 @@ return;
                 if (state is HomeTapViewModelError) {
                   dialogUtilites.lottieError(context, state.error);
                 }
+                if(state is unAuthorized){
+                  dialogUtilites.lottieLogin(context, "Please Login First");
+                }
               },
               builder: (context, state) {
                 if (state is HomeTapViewModelSuccessful) {

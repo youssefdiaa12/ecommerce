@@ -69,24 +69,6 @@ class _CategoryProuctListWidgetState extends State<CategoryProuctListWidget> {
                   child: apiProvider.isFavorite(widget.product.id ?? "")
                       ? InkWell(
                     onTap: () async {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          content: Row(
-                            children: [
-                              Text("Loading ...",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: "Poppins",
-                                    fontSize: 18.sp,
-                                  )),
-                              const Spacer(),
-                              Icon(
-                                Icons.heart_broken_sharp,
-                                color: Colors.white,
-                                size: 20.sp,
-                              )
-                            ],
-                          )));
                       String result = await apiProvider
                           .removeFromFavorite(widget.product.id ?? "");
                       if (result != "success") {

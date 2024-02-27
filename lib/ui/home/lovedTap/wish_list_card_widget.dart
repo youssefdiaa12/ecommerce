@@ -147,10 +147,10 @@ class _WishListCardWidgetState extends State<WishListCardWidget> {
                               borderRadius: BorderRadius.circular(20.r),
                             )),
                         onPressed: () async{
-                        bool is_success = await appProvider.invoke_addToCart(widget.product.id ?? "",
+                        bool isSuccess = await appProvider.invoke_addToCart(widget.product.id ?? "",
                           AppProvider.user?.token ?? "",
                           1);
-                        if(is_success){
+                        if(isSuccess){
                           showFlushBar("Added Successfully",context,isError:false);
                         }
                         else{

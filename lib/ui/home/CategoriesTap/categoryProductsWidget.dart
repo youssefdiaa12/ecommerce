@@ -80,7 +80,7 @@ class _CategorProductsWidgetState extends State<CategorProductsWidget> {
                             crossAxisCount: 2,
                             mainAxisSpacing: 2,
                             crossAxisSpacing: 8,
-                            childAspectRatio: 0.55,
+                            childAspectRatio: 0.6,
                           ),
                           itemBuilder: (context, index) {
                             return CategoryProuctListWidget(

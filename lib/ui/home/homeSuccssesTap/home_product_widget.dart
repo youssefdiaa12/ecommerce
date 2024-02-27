@@ -48,7 +48,7 @@ class _HomeProuctWidgetState extends State<HomeProuctWidget> {
                 CachedNetworkImage(
                     imageBuilder: (context, imageProvider) {
                       return Container(
-                        height: 250.h,
+                        height: 200.h,
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(25),
@@ -107,49 +107,85 @@ class _HomeProuctWidgetState extends State<HomeProuctWidget> {
                 ),
               ],
             ),
+            SizedBox(height: 10.h,),
             Padding(
               padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Text(
                 widget.product.title ?? "",
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: const Color(0xff06004F),
+                  fontSize:20.sp,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w400,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const Spacer(),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0.w),
+            SizedBox(height: 10.h,),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 4.0.w),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      children: [
-                        Padding(
-                          padding:  EdgeInsets.only(right: 4.0.w),
-                          child: Text(widget.product.price.toString()),
+                    Padding(
+                      padding:  EdgeInsets.only(left: 2.0.w),
+                      child: Text(widget.product.price.toString(),
+                        style:TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 22.sp,
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w400,
                         ),
-                        const Text("EGP"),
-
-                      ],
+                      ),
                     ),
-                Row(children: [
-                  Text("Review(${widget.product.ratingsAverage ?? ""})",
-                      style:  TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto",
-                        color: const Color(0xff06004F),
-                      )),
-                  Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 20.sp,
-                    weight: 100.w,
-                  ),
-                ])
-              ]),
+                    SizedBox(width: 10.0.w,),
+                    Text("EGP", style: TextStyle(color: Theme.of(context).primaryColor)),
+
+                  ]),
             ),
-            SizedBox(height: 20.h,),
+            Spacer(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4.0.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Review(${widget.product.ratingsAverage ?? ""})",
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          color: const Color(0xff06004F),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      5,
+                          (index) => Icon(
+                        Icons.star,
+                        color: (widget.product.ratingsAverage ?? 0) >= (index + 1)
+                            ? Colors.amber
+                            : Colors.grey,
+                        size: 20.sp,
+                        // You can adjust the size based on your preference
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 5.0.h,),
           ],
         ),
       ),
